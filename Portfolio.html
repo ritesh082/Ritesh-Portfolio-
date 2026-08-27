@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Digital Growth Alchemist | Creative Strategist</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.plot.ly/plotly-3.1.1.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        // Refined Light Palette - Sunset Gradient Identity
+                        bgBase: '#ffffff',
+                        bgSurface: '#fffafb',    // extremely subtle warm tint
+                        bgElevated: '#ffffff',
+                        borderLine: '#f1f5f9',
+                        ink: '#0f172a',
+                        inkMuted: '#64748b',
+                        accent: '#ff3e8d',       // vibrant pink/rose
+                        accentWarm: '#ffb347',   // warm orange/gold
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    transitionTimingFunction: {
+                        spring: 'cubic-bezier(0.34, 1.56, 0.64, 1)',
+                    },
+                    keyframes: {
+                        marquee: {
+                            '0%': { transform: 'translateX(0)' },
+                            '100%': { transform: 'translateX(-50%)' },
+                        },
+                    },
+                    animation: {
+                        marquee: 'marquee 30s linear infinite',
+                    },
+                },
+            },
+        };
+    </script>
+    <style>
+        .nav-link-underline::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #ff3e8d;
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .nav-link-underline:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Harsh/Sharp Gradient Borders & Backgrounds */
+        .harsh-gradient {
+            background: linear-gradient(135deg, #ff3e8d 0%, #ff3e8d 50%, #ffb347 50%, #ffb347 100%);
+        }
+        .harsh-text {
+            background: linear-gradient(90deg, #ff3e8d 0%, #ff3e8d 50%, #ffb347 50%, #ffb347 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .harsh-border {
+            border: 4px solid;
+            border-image: linear-gradient(135deg, #ff3e8d 0%, #ff3e8d 50%, #ffb347 50%, #ffb347 100%) 1;
+        }
+
+        .creative-float {
+            animation: creative-float 6s ease-in-out infinite;
+        }
+        @keyframes creative-float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            33% { transform: translateY(-20px) rotate(2deg); }
+            66% { transform: translateY(10px) rotate(-1deg); }
+        }
+    </style>
+</head>
+<body class="bg-bgBase font-sans text-ink antialiased selection:bg-accent/30">
+
+    <!-- Navigation -->
+    <nav class="fixed top-8 left-1/2 -translate-x-1/2 z-[100] w-[90%] max-w-6xl bg-bgSurface/80 backdrop-blur-md border border-borderLine rounded-full px-6 py-3 flex items-center justify-between shadow-xl shadow-black/5">
+        <div class="flex items-center gap-8">
+            <a href="#" class="relative nav-link-underline text-xs font-bold tracking-widest uppercase text-ink">Work</a>
+            <a href="#internships" class="relative nav-link-underline text-xs font-bold tracking-widest uppercase text-inkMuted hover:text-ink transition-colors">Experience</a>
+            <a href="#resume" class="relative nav-link-underline text-xs font-bold tracking-widest uppercase text-inkMuted hover:text-ink transition-colors">Results</a>
+            <a href="#contact" class="relative nav-link-underline text-xs font-bold tracking-widest uppercase text-inkMuted hover:text-ink transition-colors">Contact</a>
+        </div>
+        <div class="flex items-center gap-4">
+            <div class="hidden md:flex items-center gap-2 px-3 py-1 rounded-none harsh-gradient text-white text-[10px] font-black uppercase tracking-tighter shadow-[4px_4px_0px_0px_#0f172a]">
+                <span class="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
+                Open to work
+            </div>
+            <a href="#contact" class="group relative px-6 py-2 overflow-hidden rounded-none border-2 border-ink text-ink text-xs font-black uppercase tracking-widest transition-all duration-300 hover:text-white harsh-gradient shadow-[4px_4px_0px_0px_#ff3e8d]">
+                <span class="relative z-10">Connect Me</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Social Sidebar -->
+    <aside class="fixed left-8 top-1/2 -translate-y-1/2 z-[90] hidden lg:flex flex-col items-center gap-6">
+        <a href="#" class="text-inkMuted hover:text-accent transition-colors"><i class="fa-brands fa-instagram text-xl"></i></a>
+        <a href="#" class="text-inkMuted hover:text-accent transition-colors"><i class="fa-brands fa-linkedin-in text-xl"></i></a>
+        <div class="w-px h-12 bg-borderLine"></div>
+        <div class="relative flex items-center justify-center w-4 h-4">
+            <div class="absolute inset-0 bg-accentWarm rounded-full opacity-20 animate-ping"></div>
+            <div class="w-1.5 h-1.5 bg-accentWarm rounded-full"></div>
+        </div>
+    </aside>
+
+    <!-- Hero Section -->
+    <header id="home" class="relative min-h-screen flex items-center pt-20 overflow-hidden">
+        <div class="container mx-auto px-6 lg:px-12 grid lg:grid-cols-2 gap-12 items-center">
+            <div class="space-y-8 z-10">
+                <div class="space-y-4">
+                    <h5 class="font-mono text-xs tracking-[0.2em] uppercase text-accent font-black">Creative Strategist</h5>
+                    <h1 class="text-6xl lg:text-9xl font-black tracking-tighter leading-[0.8]">
+                        Digital Growth <br> <span class="harsh-text uppercase italic">Alchemist</span>
+                    </h1>
+                </div>
+                <p class="text-xl text-ink max-w-md leading-tight font-bold border-l-[12px] border-accent pl-6 bg-bgSurface py-4">
+                    I bridge the gap between creative vision and measurable results. Turning raw data into high-fidelity campaigns.
+                </p>
+                <div class="flex flex-wrap gap-6">
+                    <a href="#resume" class="px-10 py-5 border-[4px] border-ink rounded-none font-black text-sm uppercase tracking-widest hover:bg-ink hover:text-white transition-all shadow-[10px_10px_0px_0px_#ffb347]">Download Resume</a>
+                    <a href="#contact" class="px-10 py-5 harsh-gradient text-white rounded-none font-black text-sm uppercase tracking-widest transition-transform hover:translate-x-1 hover:-translate-y-1 shadow-[10px_10px_0px_0px_#0f172a]">Connect Me</a>
+                </div>
+            </div>
+
+            <!-- Hero Visual -->
+            <div class="relative h-[60vh] lg:h-[80vh] w-full flex items-center justify-center">
+                <div class="absolute inset-0 bg-gradient-to-tr from-accent/40 to-accentWarm/40 rounded-none filter blur-3xl opacity-30"></div>
+                <div class="relative z-10 w-full max-w-md aspect-[3/4] rounded-none overflow-hidden shadow-[40px_40px_0px_0px_#ff3e8d] group cursor-pointer border-[8px] border-ink creative-float">
+                    <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/gen_88c4b752-9f3b-4c6e-989d-7f5b9b8b8b8b.png" alt="abstract 3D render of a glass prism refracting warm sunset colors, intense pink and golden orange light beams, bright airy studio" />
+                    <div class="absolute bottom-6 right-6 px-4 py-2 harsh-gradient text-white font-black text-xs uppercase tracking-tighter shadow-[4px_4px_0px_0px_#0f172a]">SELECTED WORK // 2026</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Marquee Section -->
+    <section class="py-20 border-y border-borderLine overflow-hidden bg-bgSurface/30">
+        <div class="animate-marquee whitespace-nowrap flex gap-12 items-center">
+            <span class="text-7xl lg:text-9xl font-black uppercase tracking-tighter text-transparent [-webkit-text-stroke:1px_rgba(15,23,42,0.1)]">Creative Analysis</span>
+            <span class="text-accent text-8xl font-bold opacity-30">—</span>
+            <span class="text-7xl lg:text-9xl font-black uppercase tracking-tighter text-transparent [-webkit-text-stroke:1px_rgba(15,23,42,0.1)]">Data Velocity</span>
+            <span class="text-accent text-8xl font-bold opacity-30">—</span>
+            <span class="text-7xl lg:text-9xl font-black uppercase tracking-tighter text-transparent [-webkit-text-stroke:1px_rgba(15,23,42,0.1)]">High Fi Campaigns</span>
+            <span class="text-accent text-8xl font-bold opacity-30">—</span>
+        </div>
+    </section>
+
+    <!-- Internships Section -->
+    <section id="internships" class="py-32 bg-bgBase">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col lg:flex-row justify-between items-end mb-20 gap-8">
+                <div class="max-w-2xl">
+                    <h5 class="font-mono text-xs tracking-[0.2em] uppercase text-accent mb-6">Experience Journey</h5>
+                    <h2 class="text-5xl lg:text-7xl font-black tracking-tighter leading-none">
+                        Hands-on <span class="text-inkMuted">Impact</span>.
+                    </h2>
+                </div>
+            </div>
+
+            <div class="space-y-6">
+                <!-- Internship 1 -->
+                <div class="group relative bg-bgSurface border border-borderLine rounded-3xl p-8 lg:p-12 hover:border-accent transition-all duration-500 hover:shadow-2xl hover:shadow-accent/5 overflow-hidden">
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-accent/5 rounded-full -mr-32 -mt-32 blur-3xl group-hover:bg-accent/10 transition-colors"></div>
+                    <div class="relative z-10 flex flex-col md:flex-row gap-8 items-start md:items-center">
+                        <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center shadow-sm border border-borderLine text-accent text-2xl font-black">
+                            M
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex flex-wrap items-center gap-4 mb-2">
+                                <h3 class="text-2xl font-bold">Marketing Strategist Intern</h3>
+                                <span class="px-3 py-1 bg-gradient-to-r from-accent to-accentWarm text-white text-[10px] font-bold uppercase tracking-widest rounded-full">Meta Solutions</span>
+                            </div>
+                            <p class="text-inkMuted text-sm font-mono">June 2024 — August 2024 • Remote</p>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-transparent bg-clip-text bg-gradient-to-r from-accent to-accentWarm font-bold text-xl">+45% ROAS</div>
+                            <div class="text-[10px] uppercase tracking-widest text-inkMuted">Campaign Performance</div>
+                        </div>
+                    </div>
+                    <div class="mt-8 grid md:grid-cols-3 gap-6 border-t border-borderLine pt-8">
+                        <div class="space-y-2">
+                            <h4 class="font-bold text-xs uppercase tracking-widest text-ink">Paid Social</h4>
+                            <p class="text-sm text-inkMuted">Managed $15k+ monthly ad spend across Meta and TikTok platforms.</p>
+                        </div>
+                        <div class="space-y-2">
+                            <h4 class="font-bold text-xs uppercase tracking-widest text-ink">A/B Testing</h4>
+                            <p class="text-sm text-inkMuted">Executed 20+ creative tests resulting in a 2.1% CTR improvement.</p>
+                        </div>
+                        <div class="space-y-2">
+                            <h4 class="font-bold text-xs uppercase tracking-widest text-ink">Analytics</h4>
+                            <p class="text-sm text-inkMuted">Built automated reporting dashboards using Looker Studio and SQL.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Internship 2 -->
+                <div class="group relative bg-bgSurface border border-borderLine rounded-3xl p-8 lg:p-12 hover:border-accent transition-all duration-500 hover:shadow-2xl hover:shadow-accent/5 overflow-hidden">
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-accentWarm/5 rounded-full -mr-32 -mt-32 blur-3xl group-hover:bg-accentWarm/10 transition-colors"></div>
+                    <div class="relative z-10 flex flex-col md:flex-row gap-8 items-start md:items-center">
+                        <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center shadow-sm border border-borderLine text-accentWarm text-2xl font-black">
+                            D
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex flex-wrap items-center gap-4 mb-2">
+                                <h3 class="text-2xl font-bold">Content Growth Intern</h3>
+                                <span class="px-3 py-1 bg-gradient-to-r from-accentWarm to-accent text-white text-[10px] font-bold uppercase tracking-widest rounded-full">Digital Spark</span>
+                            </div>
+                            <p class="text-inkMuted text-sm font-mono">Jan 2024 — April 2024 • Hybrid</p>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-transparent bg-clip-text bg-gradient-to-r from-accentWarm to-accent font-bold text-xl">12M+ Views</div>
+                            <div class="text-[10px] uppercase tracking-widest text-inkMuted">Organic Reach</div>
+                        </div>
+                    </div>
+                    <div class="mt-8 grid md:grid-cols-3 gap-6 border-t border-borderLine pt-8">
+                        <div class="space-y-2">
+                            <h4 class="font-bold text-xs uppercase tracking-widest text-ink">Viral Strategy</h4>
+                            <p class="text-sm text-inkMuted">Concepted and scripted 50+ short-form videos for Instagram Reels.</p>
+                        </div>
+                        <div class="space-y-2">
+                            <h4 class="font-bold text-xs uppercase tracking-widest text-ink">SEO Ops</h4>
+                            <p class="text-sm text-inkMuted">Optimized 100+ blog posts for low-competition, high-intent keywords.</p>
+                        </div>
+                        <div class="space-y-2">
+                            <h4 class="font-bold text-xs uppercase tracking-widest text-ink">Community</h4>
+                            <p class="text-sm text-inkMuted">Grew Discord community from 0 to 2,500 active members in 3 months.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Performance / Metrics Section -->
+    <section id="resume" class="py-32 bg-bgSurface">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col lg:flex-row justify-between items-start mb-20 gap-12">
+                <div class="max-w-xl">
+                    <h5 class="font-mono text-xs tracking-[0.2em] uppercase text-accent mb-6">Performance Track Record</h5>
+                    <h2 class="text-4xl lg:text-6xl font-black tracking-tight leading-none mb-8">
+                        Results that speak louder than slides.
+                    </h2>
+                    <p class="text-inkMuted text-lg leading-relaxed">
+                        Every campaign is engineered for impact. Here is how the numbers have moved across the brands I've partnered with over the last three years.
+                    </p>
+                </div>
+                <div class="flex gap-8">
+                    <div class="text-right">
+                        <div class="text-5xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-accent to-accentWarm">3+</div>
+                        <div class="font-mono text-[10px] uppercase tracking-widest text-inkMuted mt-2">Years Active</div>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-5xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-accentWarm to-accent">40+</div>
+                        <div class="font-mono text-[10px] uppercase tracking-widest text-inkMuted mt-2">Campaigns</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stat Band -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 border-t border-borderLine pt-12">
+                <div class="group">
+                    <div id="seo-chart" class="h-[120px] mb-4"></div>
+                    <div class="text-6xl font-black tracking-tighter mb-2 flex items-end gap-2 text-ink">
+                        +300%
+                    </div>
+                    <h4 class="text-sm font-bold uppercase tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-accent to-accentWarm">SEO Visibility Lift</h4>
+                    <p class="text-xs text-inkMuted mt-2">Organic traffic growth over 12 months</p>
+                </div>
+                <div class="group">
+                    <div id="ads-chart" class="h-[120px] mb-4"></div>
+                    <div class="text-6xl font-black tracking-tighter mb-2 flex items-end gap-2 text-ink">
+                        6.2x
+                    </div>
+                    <h4 class="text-sm font-bold uppercase tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-accentWarm to-accent">Meta Ads ROAS</h4>
+                    <p class="text-xs text-inkMuted mt-2">Median return on ad spend</p>
+                </div>
+                <div class="group">
+                    <div id="impressions-chart" class="h-[120px] mb-4"></div>
+                    <div class="text-6xl font-black tracking-tighter mb-2 flex items-end gap-2 text-ink">
+                        15M+
+                    </div>
+                    <h4 class="text-sm font-bold uppercase tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-accent to-accentWarm">Impressions</h4>
+                    <p class="text-xs text-inkMuted mt-2">Cumulative cross-platform reach</p>
+                </div>
+                <div class="group">
+                    <div id="ctr-chart" class="h-[120px] mb-4"></div>
+                    <div class="text-6xl font-black tracking-tighter mb-2 flex items-end gap-2 text-ink">
+                        4.5%
+                    </div>
+                    <h4 class="text-sm font-bold uppercase tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-accentWarm to-accent">Avg. CTR</h4>
+                    <p class="text-xs text-inkMuted mt-2">Market benchmark: 1.2%</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services / Capabilities (reuses Bento Grid pattern) -->
+    <section class="py-32 bg-bgBase">
+        <div class="container mx-auto px-6">
+            <div class="mb-20">
+                <h5 class="font-mono text-xs tracking-[0.2em] uppercase text-accent mb-6">What I Bring</h5>
+                <h2 class="text-5xl lg:text-7xl font-black tracking-tighter leading-none">
+                    Strategist <span class="text-inkMuted">Toolkit</span>
+                </h2>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 auto-rows-[280px]">
+                <!-- Large capability tile -->
+                <div class="lg:col-span-2 row-span-2 bg-bgElevated border border-borderLine rounded-3xl p-10 flex flex-col justify-between hover:border-accent transition-colors group">
+                    <div class="space-y-4">
+                        <h3 class="text-3xl font-bold tracking-tight">Creative Strategy &amp; Positioning</h3>
+                        <p class="text-inkMuted leading-relaxed">Crafting the narrative arc before a single asset is designed. Brand audits, audience mapping, and messaging frameworks that align creativity with commercial goals.</p>
+                    </div>
+                    <div class="aspect-video rounded-xl overflow-hidden shadow-xl">
+                        <img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/gen_fe8810e38e_91b15c45d7d881f8.png" alt="moody flatlay of strategy workshop, sticky notes and printed moodboards on dark table, violet rim li" />
+                    </div>
+                </div>
+
+                <!-- Tall tile -->
+                <div class="row-span-2 bg-bgElevated border border-borderLine rounded-3xl p-8 flex flex-col justify-between hover:border-accent transition-colors group">
+                    <div class="space-y-4">
+                        <h3 class="text-xl font-bold">Paid Social Architecture</h3>
+                        <p class="text-sm text-inkMuted">End-to-end campaign builds across Meta, TikTok, and YouTube with rigorous testing loops.</p>
+                    </div>
+                    <div class="aspect-square rounded-xl overflow-hidden shadow-xl">
+                        <img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/gen_291e1ae5f6_ab05be7b8b0105e7.png" alt="close-up of analytics dashboard on a laptop screen glowing cyan, dark room, neon reflections, tech p" />
+                    </div>
+                </div>
+
+                <!-- Wide tile -->
+                <div class="lg:col-span-2 bg-bgElevated border border-borderLine rounded-3xl p-8 flex flex-col justify-between hover:border-accent transition-colors group">
+                    <div class="space-y-4">
+                        <h3 class="text-xl font-bold">Performance Creative Direction</h3>
+                        <p class="text-sm text-inkMuted">Bridging design and data to produce scroll-stopping assets optimized for conversion.</p>
+                    </div>
+                    <div class="aspect-video rounded-xl overflow-hidden shadow-xl">
+                        <img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/gen_2178f95741_b27a4629d23523e6.png" alt="vibrant neon-lit creative studio setup with cameras and lighting rigs, purple and teal grade, cinema" />
+                    </div>
+                </div>
+
+                <!-- Small tile -->
+                <div class="bg-bgElevated border border-borderLine rounded-3xl p-8 flex flex-col justify-between hover:border-accent transition-colors group">
+                    <h3 class="text-lg font-bold">A/B Testing Systems</h3>
+                    <p class="text-xs text-inkMuted">Statistical rigor meets creative curiosity.</p>
+                    <div class="w-full aspect-video rounded-xl overflow-hidden shadow-xl">
+                        <img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/gen_4079da0934_ffa359b23f992a31.png" alt="abstract split test visualization, two diverging glowing paths on dark background, data art" />
+                    </div>
+                </div>
+
+                <!-- Small tile -->
+                <div class="bg-bgElevated border border-borderLine rounded-3xl p-8 flex flex-col justify-between hover:border-accent transition-colors group">
+                    <h3 class="text-lg font-bold">Reporting &amp; Storytelling</h3>
+                    <p class="text-xs text-inkMuted">Turning spreadsheets into stakeholder stories.</p>
+                    <div class="w-full aspect-video rounded-xl overflow-hidden shadow-xl">
+                        <img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/gen_177a54db39_c96d63e9cda6b0a4.png" alt="elegant minimal presentation slide with bold typography on dark violet background, overhead shot" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Gallery (reuses Project Gallery pattern) -->
+    <section id="work" class="py-32 bg-bgSurface">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col lg:flex-row justify-between items-end mb-20 gap-8">
+                <div class="max-w-2xl">
+                    <h5 class="font-mono text-xs tracking-[0.2em] uppercase text-accent mb-6">Selected Work</h5>
+                    <h2 class="text-5xl lg:text-7xl font-black tracking-tighter leading-none">
+                        Campaigns that moved the needle.
+                    </h2>
+                </div>
+                <p class="text-inkMuted max-w-md text-sm leading-relaxed">
+                    A curated selection of high-performance campaigns spanning DTC, SaaS, and entertainment. Each one paired creative ambition with measurable outcomes.
+                </p>
+            </div>
+
+            <div class="grid lg:grid-cols-12 gap-6">
+                <!-- Project 1 -->
+                <div class="lg:col-span-4 group cursor-pointer">
+                    <div class="relative aspect-[4/5] overflow-hidden rounded-2xl mb-6">
+                        <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/gen_6c3a9fe42d_77fb99c2b4c742f2.png" alt="bold editorial fashion campaign poster, model in neon streetwear, dramatic studio lighting, high fas" />
+                        <div class="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors"></div>
+                        <div class="absolute bottom-6 left-6 right-6 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                            <h3 class="text-2xl font-bold text-white">Neon Streetwear Launch</h3>
+                            <p class="text-xs text-gray-300 uppercase tracking-widest">Creative Direction / Paid Social</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="lg:col-span-3 lg:mt-32 group cursor-pointer">
+                    <div class="relative aspect-[4/5] overflow-hidden rounded-2xl mb-6">
+                        <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/gen_d2f93f14cc_f4e9bda5e6509a31.png" alt="sleek SaaS product launch visual, floating 3D phone with glowing interface, deep purple gradient bac" />
+                        <div class="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors"></div>
+                        <div class="absolute bottom-6 left-6 right-6 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                            <h3 class="text-2xl font-bold text-white">SaaS Platform Rebrand</h3>
+                            <p class="text-xs text-gray-300 uppercase tracking-widest">Strategy / Performance</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="lg:col-span-5 group cursor-pointer">
+                    <div class="relative aspect-[4/5] overflow-hidden rounded-2xl mb-6">
+                        <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/gen_d5d1fe2c9a_e78029b3d8155bee.png" alt="energetic music festival campaign artwork, crowd silhouette against vivid magenta sky, grainy analog" />
+                        <div class="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors"></div>
+                        <div class="absolute bottom-6 left-6 right-6 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                            <h3 class="text-2xl font-bold text-white">Festival Season Campaign</h3>
+                            <p class="text-xs text-gray-300 uppercase tracking-widest">Full Funnel / Creative</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 4 -->
+                <div class="lg:col-span-5 lg:mt-24 group cursor-pointer">
+                    <div class="relative aspect-[4/5] overflow-hidden rounded-2xl mb-6">
+                        <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/gen_a69d464b91_d285b750bc3d100e.png" alt="premium beverage brand commercial still, condensation on glass bottle, moody bar lighting, cinematic" />
+                        <div class="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors"></div>
+                        <div class="absolute bottom-6 left-6 right-6 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                            <h3 class="text-2xl font-bold text-white">Beverage Brand Revival</h3>
+                            <p class="text-xs text-gray-300 uppercase tracking-widest">Positioning / Paid Media</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 5 -->
+                <div class="lg:col-span-4 group cursor-pointer">
+                    <div class="relative aspect-[4/5] overflow-hidden rounded-2xl mb-6">
+                        <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/gen_6a483a4ddb_55cd09614fb969b4.png" alt="abstract generative art poster with flowing violet and cyan ribbons, dark background, modern graphic" />
+                        <div class="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors"></div>
+                        <div class="absolute bottom-6 left-6 right-6 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                            <h3 class="text-2xl font-bold text-white">Generative Art Series</h3>
+                            <p class="text-xs text-gray-300 uppercase tracking-widest">Creative Concept</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 6 -->
+                <div class="lg:col-span-3 lg:mt-12 group cursor-pointer">
+                    <div class="relative aspect-[4/5] overflow-hidden rounded-2xl mb-6">
+                        <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/gen_778245f8fb_ac4a97f19d44975c.png" alt="minimalist e-commerce app mockup on dark surface with soft violet reflection, clean product photogra" />
+                        <div class="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors"></div>
+                        <div class="absolute bottom-6 left-6 right-6 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                            <h3 class="text-2xl font-bold text-white">E-com App Launch</h3>
+                            <p class="text-xs text-gray-300 uppercase tracking-widest">Strategy / Design</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials (reuses Testimonial Slider pattern) -->
+    <section class="py-32 bg-bgBase overflow-hidden">
+        <div class="container mx-auto px-6 mb-20">
+            <h5 class="font-mono text-xs tracking-[0.2em] uppercase text-accent mb-6">Kind Words</h5>
+            <h2 class="text-5xl lg:text-7xl font-black tracking-tighter">
+                Trusted by the <span class="text-inkMuted">bold</span>.
+            </h2>
+        </div>
+
+        <div class="flex gap-6 px-6 overflow-x-auto pb-12 no-scrollbar snap-x">
+            <!-- Card 1 -->
+            <div class="min-w-[350px] lg:min-w-[450px] bg-bgElevated border border-borderLine p-10 rounded-3xl snap-center">
+                <p class="text-xl text-inkMuted mb-8 leading-relaxed">"A rare strategist who actually understands design. The campaigns we ran together outperformed everything in our history."</p>
+                <div class="flex items-center gap-4">
+                    <img class="w-14 h-14 rounded-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/gen_b05f1fcb3b_09ea45651235cb2e.png" alt="professional headshot portrait of a confident woman executive, neutral gray studio background, witho" />
+                    <div>
+                        <div class="font-bold">Sarah Jenkins</div>
+                        <div class="text-xs text-inkMuted uppercase tracking-widest">CMO, Vertex Labs</div>
+                    </div>
+                </div>
+            </div>
+            <!-- Card 2 -->
+            <div class="min-w-[350px] lg:min-w-[450px] bg-bgElevated border border-borderLine p-10 rounded-3xl snap-center">
+                <p class="text-xl text-inkMuted mb-8 leading-relaxed">"She turned our vague brief into a six-figure launch. Data-driven, creatively fearless, and an absolute joy to work with."</p>
+                <div class="flex items-center gap-4">
+                    <img class="w-14 h-14 rounded-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/gen_b05f1fcb3b_8bbf40a939c4124e.png" alt="professional headshot portrait of a friendly man in his thirties, neutral gray studio background, wi" />
+                    <div>
+                        <div class="font-bold">Marcus Reed</div>
+                        <div class="text-xs text-inkMuted uppercase tracking-widest">Founder, Atlas Co.</div>
+                    </div>
+                </div>
+            </div>
+            <!-- Card 3 -->
+            <div class="min-w-[350px] lg:min-w-[450px] bg-bgElevated border border-borderLine p-10 rounded-3xl snap-center">
+                <p class="text-xl text-inkMuted mb-8 leading-relaxed">"The reporting alone was worth the engagement. Clear, beautiful, and impossible to misread by leadership."</p>
+                <div class="flex items-center gap-4">
+                    <img class="w-14 h-14 rounded-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/gen_b05f1fcb3b_6118214659ebcc77.png" alt="professional headshot portrait of a smiling woman with glasses, neutral gray studio background, with" />
+                    <div>
+                        <div class="font-bold">Elena Voss</div>
+                        <div class="text-xs text-inkMuted uppercase tracking-widest">VP Growth, Helix</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA (reuses CTA Section pattern) -->
+    <section id="contact" class="py-40 bg-gradient-to-b from-bgBase via-accent/20 to-bgBase text-center">
+        <div class="container mx-auto px-6">
+            <h2 class="text-6xl lg:text-8xl font-black tracking-tighter mb-12">
+                Let's build something <br> <span class="text-transparent bg-clip-text bg-gradient-to-r from-accent to-accentBlue">unignorable.</span>
+            </h2>
+            <a href="#contact" class="inline-block px-12 py-6 border border-ink rounded-full font-bold text-base uppercase tracking-[0.2em] hover:bg-ink hover:text-bgBase transition-all">
+                Connect Me
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-bgSurface py-20 border-t border-borderLine">
+        <div class="container mx-auto px-6">
+            <div class="grid lg:grid-cols-3 gap-20 mb-20">
+                <div>
+                    <h2 class="text-7xl font-black tracking-tighter leading-none">GROWTH<br>ALCHEMIST</h2>
+                </div>
+                <div class="space-y-12">
+                    <div>
+                        <h5 class="font-mono text-[10px] uppercase tracking-widest text-inkMuted mb-6">Work</h5>
+                        <ul class="space-y-4 text-sm font-medium">
+                            <li><a href="#work" class="hover:text-accent transition-colors">Creative Direction</a></li>
+                            <li><a href="#work" class="hover:text-accent transition-colors">Paid Social</a></li>
+                            <li><a href="#work" class="hover:text-accent transition-colors">Brand Strategy</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h5 class="font-mono text-[10px] uppercase tracking-widest text-inkMuted mb-6">Resume</h5>
+                        <ul class="space-y-4 text-sm font-medium">
+                            <li><a href="#resume" class="hover:text-accent transition-colors">Experience</a></li>
+                            <li><a href="#resume" class="hover:text-accent transition-colors">Skills</a></li>
+                            <li><a href="#resume" class="hover:text-accent transition-colors">Education</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div>
+                    <h5 class="font-mono text-[10px] uppercase tracking-widest text-inkMuted mb-6">Contact</h5>
+                    <ul class="space-y-4 text-sm font-medium">
+                        <li><a href="mailto:hello@growthalchemist.com" class="hover:text-accent transition-colors">hello@growthalchemist.com</a></li>
+                        <li><a href="#" class="hover:text-accent transition-colors">Instagram</a></li>
+                        <li><a href="#" class="hover:text-accent transition-colors">LinkedIn</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="pt-12 border-t border-borderLine flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] uppercase tracking-[0.2em] text-inkMuted">
+                <p>&copy; 2026 Growth Alchemist. All rights reserved.</p>
+                <p>Designed &amp; Built with precision</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('mousemove', (e) => {
+            const x = (window.innerWidth - e.pageX * 2) / 100;
+            const y = (window.innerHeight - e.pageY * 2) / 100;
+            document.querySelectorAll('.parallax-drift').forEach(el => {
+                el.style.transform = `translate(${x}px, ${y}px)`;
+            });
+        });
+
+        window.addEventListener('load', function() {
+            const chartConfig = {
+                responsive: true,
+                displayModeBar: false,
+                displaylogo: false
+            };
+
+            const commonLayout = {
+                paper_bgcolor: 'rgba(0,0,0,0)',
+                plot_bgcolor: 'rgba(0,0,0,0)',
+                margin: { t: 0, r: 0, b: 0, l: 0 },
+                showlegend: false,
+                xaxis: { showgrid: false, zeroline: false, showticklabels: false },
+                yaxis: { showgrid: false, zeroline: false, showticklabels: false }
+            };
+
+            try {
+                // SEO Chart
+                Plotly.newPlot('seo-chart', [{
+                    x: [1, 2, 3, 4, 5, 6],
+                    y: [10, 15, 13, 24, 35, 40],
+                    type: 'scatter',
+                    mode: 'lines',
+                    fill: 'tozeroy',
+                    line: { color: '#ff3e8d', width: 3 },
+                    fillcolor: 'rgba(255, 62, 141, 0.1)'
+                }], commonLayout, chartConfig);
+
+                // Ads Chart
+                Plotly.newPlot('ads-chart', [{
+                    x: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    y: [2, 4.5, 3.8, 5.2, 6.0, 6.2],
+                    type: 'bar',
+                    marker: {
+                        color: ['#ff3e8d', '#ff5a7e', '#ff766f', '#ff9260', '#ffae51', '#ffb347']
+                    }
+                }], commonLayout, chartConfig);
+
+                // Impressions Chart
+                Plotly.newPlot('impressions-chart', [{
+                    x: [1, 2, 3, 4, 5, 6],
+                    y: [5, 8, 7, 12, 14, 15],
+                    type: 'scatter',
+                    mode: 'lines+markers',
+                    line: { color: '#ffb347', shape: 'spline' },
+                    marker: { size: 6, color: '#ff3e8d' }
+                }], commonLayout, chartConfig);
+
+                // CTR Chart
+                Plotly.newPlot('ctr-chart', [{
+                    values: [4.5, 95.5],
+                    labels: ['CTR', 'Other'],
+                    type: 'pie',
+                    hole: 0.7,
+                    marker: { colors: ['#ff3e8d', 'rgba(255, 62, 141, 0.05)'] },
+                    textinfo: 'none'
+                }], commonLayout, chartConfig);
+
+            } catch (e) {
+                console.error("Chart error:", e);
+            }
+        });
+    </script>
+</body>
+</html>
