@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowUpRight, Maximize2, TrendingUp, Phone, Layers, Share2, Play } from "lucide-react";
+import { ArrowUpRight, Maximize2, TrendingUp, Phone } from "lucide-react";
 import AnimatedCounter from "./AnimatedCounter";
 import ProofModal from "./ProofModal";
 

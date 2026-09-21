@@ -138,7 +138,7 @@ export default function PortfolioCharacter() {
   const [isBlinking, setIsBlinking] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
   const [bubbleVisible, setBubbleVisible] = useState(true);
-  const [clickCombo, setClickCombo] = useState(0);
+  const [isMoving, setIsMoving] = useState(false);
   const [particles, setParticles] = useState([]);
   const [isClient, setIsClient] = useState(false);
 
@@ -277,6 +277,7 @@ export default function PortfolioCharacter() {
         setJumpHeight(35);
         setMoveDuration(0.65);
         isMovingRef.current = true;
+        setIsMoving(true);
         setPos({ x: midPlatform.x, y: midPlatform.y });
         spawnEffect("dust", 3);
 
@@ -295,6 +296,7 @@ export default function PortfolioCharacter() {
 
             setTimeout(() => {
               isMovingRef.current = false;
+              setIsMoving(false);
               setJumpHeight(0);
               setMovementState("idle");
               spawnEffect("dust", 3);
@@ -315,6 +317,7 @@ export default function PortfolioCharacter() {
     setMoveDuration(duration);
     setMovementState(isRun ? "running" : isSkip ? "skipping" : "walking");
     isMovingRef.current = true;
+    setIsMoving(true);
 
     if (isRun) {
       spawnEffect("dust", 2);
@@ -324,6 +327,7 @@ export default function PortfolioCharacter() {
 
     setTimeout(() => {
       isMovingRef.current = false;
+      setIsMoving(false);
       setMovementState("idle");
       spawnEffect("dust", 1);
       if (onArrival) {
@@ -883,7 +887,7 @@ export default function PortfolioCharacter() {
         left: 0,
         top: 0,
         transform: `translate3d(${pos.x}px, ${pos.y}px, 0)`,
-        transition: isMovingRef.current
+        transition: isMoving
           ? `transform ${moveDuration}s cubic-bezier(0.25, 1, 0.5, 1)`
           : "transform 0.4s ease-out",
       }}

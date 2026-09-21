@@ -137,7 +137,7 @@ export default function WorkReel() {
         <div className="flex items-center gap-2">
           <span className="w-1.5 h-1.5 bg-[#ff3e8d] rounded-full animate-pulse" />
           <span className="font-bold text-[#0f172a]">HOVER TO PAUSE</span>
-          <span>//</span>
+          <span>{"//"}</span>
           <span>CLICK TO ENLARGE</span>
         </div>
         <span className="font-bold uppercase tracking-widest text-[#0f172a]">SELECTED CAMPAIGN WORK</span>

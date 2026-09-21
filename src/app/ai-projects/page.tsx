@@ -6,25 +6,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { 
   ArrowLeft, 
   Sparkles, 
-  Bot, 
-  Terminal, 
-  ShieldCheck, 
-  Search, 
-  Share2, 
   CheckCircle2, 
-  Layers, 
-  Play, 
-  Code2, 
-  FileJson, 
-  Cpu, 
-  RefreshCw, 
-  ArrowUpRight, 
-  ExternalLink,
-  Zap,
-  Globe,
-  Database,
-  Sliders,
-  Maximize2
+  ArrowUpRight 
 } from "lucide-react";
 
 interface AiProjectDetail {
