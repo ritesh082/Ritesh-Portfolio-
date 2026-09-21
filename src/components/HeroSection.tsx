@@ -1,8 +1,9 @@
 "use client";
 
 import React, { lazy } from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowRight, FileText } from "lucide-react";
+import { ArrowRight, FileText, Sparkles } from "lucide-react";
 
 // Lazy load the 3D character scene to avoid blocking initial render
 const CharacterScene = lazy(() => import("./Character/CharacterScene"));
@@ -49,7 +50,7 @@ export default function HeroSection() {
               className="border-l-[6px] md:border-l-[8px] border-[#ff3e8d] pl-5 bg-white/70 backdrop-blur-sm py-3.5 rounded-r-2xl shadow-sm"
             >
               <p className="text-base sm:text-lg text-[#0f172a] leading-snug font-bold">
-                I bridge the gap between creative vision and measurable results. Turning raw data into high-fidelity campaigns.
+                I bridge the gap between creative vision and measurable results. Turning raw data into high-fidelity campaigns and autonomous AI workflows.
               </p>
             </motion.div>
 
@@ -58,7 +59,7 @@ export default function HeroSection() {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.5 }}
-              className="flex flex-wrap items-center gap-4 pt-3"
+              className="flex flex-wrap items-center gap-3.5 pt-3"
             >
               {/* Primary CTA */}
               <a
@@ -72,11 +73,20 @@ export default function HeroSection() {
                     window.scrollTo({ top: y, behavior: "smooth" });
                   }
                 }}
-                className="group inline-flex items-center gap-2.5 px-7 py-3.5 harsh-gradient text-white text-xs font-black uppercase tracking-wider rounded-xl shadow-[4px_4px_0px_0px_#0f172a] hover:translate-x-0.5 hover:-translate-y-0.5 transition-transform cursor-pointer"
+                className="group inline-flex items-center gap-2.5 px-6 py-3.5 harsh-gradient text-white text-xs font-black uppercase tracking-wider rounded-xl shadow-[4px_4px_0px_0px_#0f172a] hover:translate-x-0.5 hover:-translate-y-0.5 transition-transform cursor-pointer"
               >
-                <span>Explore Selected Work</span>
+                <span>Explore Work</span>
                 <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
               </a>
+
+              {/* AI Projects CTA */}
+              <Link
+                href="/ai-projects"
+                className="group inline-flex items-center gap-2 px-5 py-3.5 bg-[#0f172a] hover:bg-black text-white text-xs font-mono font-bold uppercase tracking-wider transition-all duration-300 rounded-xl shadow-[4px_4px_0px_0px_#ff3e8d] cursor-pointer"
+              >
+                <Sparkles className="w-4 h-4 text-[#ffb347] group-hover:rotate-12 transition-transform" />
+                <span>AI Projects</span>
+              </Link>
 
               {/* Secondary CTA */}
               <a
@@ -84,10 +94,10 @@ export default function HeroSection() {
                 target="_blank"
                 rel="noopener noreferrer"
                 data-char-action="resume"
-                className="group inline-flex items-center gap-2.5 px-6 py-3.5 border-2 border-[#0f172a] bg-white hover:bg-[#0f172a] hover:text-white text-xs font-black uppercase tracking-wider text-[#0f172a] transition-all duration-300 rounded-xl shadow-[4px_4px_0px_0px_#ffb347]"
+                className="group inline-flex items-center gap-2 px-5 py-3.5 border-2 border-slate-200 bg-white hover:bg-slate-100 hover:border-slate-300 text-xs font-black uppercase tracking-wider text-[#0f172a] transition-all duration-300 rounded-xl shadow-sm"
               >
-                <FileText className="w-4 h-4 text-[#ff3e8d] group-hover:text-white transition-colors" />
-                <span>Download Resume</span>
+                <FileText className="w-4 h-4 text-[#ff3e8d]" />
+                <span>Resume</span>
               </a>
             </motion.div>
           </div>

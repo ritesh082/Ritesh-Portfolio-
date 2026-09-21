@@ -402,10 +402,10 @@ export default function ResultsSection() {
                   <span>YOUTUBE PERFORMANCE</span>
                 </div>
                 <h3 className="text-2xl sm:text-3xl font-black uppercase text-[#0f172a] tracking-tight">
-                  LONG-FORM CONTENT SCALE
+                  SHORT-FORM CONTENT SCALE
                 </h3>
                 <p className="font-sans text-xs sm:text-sm text-[#64748b] leading-relaxed max-w-sm font-medium">
-                  YouTube audience growth and high-retention video content performance over time.
+                  YouTube Shorts audience growth and high-retention short-form content performance over time.
                 </p>
               </div>
 
