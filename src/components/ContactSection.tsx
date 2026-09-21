@@ -20,7 +20,7 @@ function InstagramIcon({ className = "w-5 h-5" }: { className?: string }) {
   );
 }
 
-const EMAIL = "riteshpatelofficial18@gmail.com";
+const EMAIL = "riteshkr90patel@gmail.com";
 const LINKEDIN_URL = "https://www.linkedin.com/in/ritesh-patel1/";
 const INSTAGRAM_URL = "https://instagram.com/as_ritesh";
 

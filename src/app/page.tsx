@@ -71,9 +71,9 @@ export default function Home() {
           <LinkedinIcon className="w-4 h-4" />
         </a>
         <a
-          href="mailto:riteshpatelofficial18@gmail.com"
+          href="mailto:riteshkr90patel@gmail.com"
           className="w-8 h-8 flex items-center justify-center rounded-xl text-[#64748b] hover:text-[#ffb347] hover:bg-[#ffb347]/10 transition-all duration-200"
-          title="Email (riteshpatelofficial18@gmail.com)"
+          title="Email (riteshkr90patel@gmail.com)"
           aria-label="Email Contact"
         >
           <Mail className="w-4 h-4" />

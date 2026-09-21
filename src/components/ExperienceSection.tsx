@@ -18,28 +18,43 @@ const SELECTED_EXPERIENCES: SelectedExperience[] = [
     id: "first-attempt",
     num: "01",
     company: "FIRST ATTEMPT",
-    context: "Digital Marketing",
+    context: "Digital Marketing Intern (May 2026 – Present)",
     focusAreas: [
-      "PAID CAMPAIGNS",
-      "SOCIAL GROWTH",
-      "CREATIVE EXECUTION",
-      "PERFORMANCE CRO",
+      "META ADS (33K IMPRESSIONS)",
+      "15X REACH GROWTH",
+      "ON-PAGE SEO",
+      "GOOGLE BUSINESS PROFILE",
     ],
     summary:
-      "Focusing on performance campaign execution, organic audience scaling, creative content production, and conversion rate optimization.",
+      "Delivered 33,000 impressions on a ₹400 test budget, grew client reach 15x (7K to 110K+), optimized on-page SEO for First Job Hub, and generated 100+ GBP views in 10 days.",
   },
   {
     id: "findtern",
     num: "02",
     company: "FINDTERN",
-    context: "Operations / QA",
+    context: "Operations Intern (Nov 2025 – Jan 2026)",
     focusAreas: [
-      "GROWTH OPERATIONS",
-      "AUDIENCE RESEARCH",
-      "CONTENT STRATEGY",
+      "QA BUG TESTING (100+)",
+      "DIGITAL CONTENT",
+      "DATA RESEARCH",
+      "OPERATIONS",
     ],
     summary:
-      "Executing audience growth research, operational workflows, and digital marketing content strategy.",
+      "Conducted QA testing identifying 100+ bugs, managed digital marketing content creation, and performed operational data research across fast-paced cross-functional workflows.",
+  },
+  {
+    id: "drone-rangers",
+    num: "03",
+    company: "DRONE RANGERS",
+    context: "Business Development Intern (Aug 2025 – Oct 2025)",
+    focusAreas: [
+      "CLIENT OUTREACH (300+)",
+      "LEAD GENERATION (25 LEADS)",
+      "AUDIENCE RESEARCH",
+      "CAMPAIGN PLANNING",
+    ],
+    summary:
+      "Led client outreach across ~300 prospective clients, generated 25 qualified sales leads through audience research and strategic campaign planning.",
   },
 ];
 
