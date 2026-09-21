@@ -138,6 +138,7 @@ export default function PortfolioCharacter() {
   const [isBlinking, setIsBlinking] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
   const [bubbleVisible, setBubbleVisible] = useState(true);
+  const [clickCombo, setClickCombo] = useState(0);
   const [isMoving, setIsMoving] = useState(false);
   const [particles, setParticles] = useState([]);
   const [isClient, setIsClient] = useState(false);
