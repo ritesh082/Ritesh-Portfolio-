@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
 
+export const dynamic = "force-dynamic";
+
 const SECRET_FILE_PATH = path.join(process.cwd(), "src", "data", "adminSecret.json");
 
 function getStoredPassword(): string {
