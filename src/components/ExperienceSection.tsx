@@ -3,6 +3,7 @@
 import React from "react";
 import { motion, useReducedMotion, Variants } from "framer-motion";
 import { ArrowDown } from "lucide-react";
+import { usePortfolioData } from "@/context/PortfolioDataContext";
 
 interface SelectedExperience {
   id: string;
@@ -13,7 +14,7 @@ interface SelectedExperience {
   summary: string;
 }
 
-const SELECTED_EXPERIENCES: SelectedExperience[] = [
+const DEFAULT_EXPERIENCES: SelectedExperience[] = [
   {
     id: "first-attempt",
     num: "01",
@@ -59,6 +60,8 @@ const SELECTED_EXPERIENCES: SelectedExperience[] = [
 ];
 
 export default function ExperienceSection() {
+  const { data } = usePortfolioData();
+  const experiences = data?.experiences && data.experiences.length > 0 ? data.experiences : DEFAULT_EXPERIENCES;
   const shouldReduceMotion = useReducedMotion();
 
   const fadeInUp: Variants = {
@@ -137,9 +140,9 @@ export default function ExperienceSection() {
         {/* CURATED EXPERIENCE CHAPTERS */}
         {/* ================================================== */}
         <div className="space-y-8 sm:space-y-12">
-          {SELECTED_EXPERIENCES.map((exp, idx) => (
+          {experiences.map((exp, idx) => (
             <motion.div
-              key={exp.id}
+              key={exp.id || idx}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, margin: "-80px" }}
@@ -151,8 +154,8 @@ export default function ExperienceSection() {
               {/* Header Row */}
               <div className="relative z-10 flex flex-col md:flex-row gap-6 items-start md:items-center justify-between border-b border-slate-100 pb-6 mb-8">
                 <div className="flex items-center gap-5">
-                  <div className="w-14 h-14 bg-slate-50 border border-slate-200 rounded-2xl flex items-center justify-center text-xl font-black text-[#0f172a] shadow-sm">
-                    {idx === 0 ? "F" : "T"}
+                  <div className="w-14 h-14 bg-slate-50 border border-slate-200 rounded-2xl flex items-center justify-center text-xl font-black text-[#0f172a] shadow-sm uppercase">
+                    {exp.company ? exp.company.trim().charAt(0) : "E"}
                   </div>
                   <div>
                     <div className="flex flex-wrap items-center gap-3">

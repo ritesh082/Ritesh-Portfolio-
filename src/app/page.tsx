@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from "react";
+import Link from "next/link";
 import CinematicIntro from "@/components/CinematicIntro";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
@@ -10,7 +11,8 @@ import AboutSection from "@/components/AboutSection";
 import ExperienceSection from "@/components/ExperienceSection";
 import ContactSection from "@/components/ContactSection";
 import PortfolioCharacter from "@/components/PortfolioCharacter";
-import { RotateCcw, Mail } from "lucide-react";
+import { RotateCcw, Mail, Lock } from "lucide-react";
+import { usePortfolioData } from "@/context/PortfolioDataContext";
 
 function InstagramIcon({ className = "w-4 h-4" }: { className?: string }) {
   return (
@@ -29,8 +31,13 @@ function LinkedinIcon({ className = "w-4 h-4" }: { className?: string }) {
 }
 
 export default function Home() {
+  const { data } = usePortfolioData();
   const [introFinished, setIntroFinished] = useState<boolean>(false);
   const [introKey, setIntroKey] = useState<number>(0);
+
+  const instagramUrl = data?.socials?.instagram || "https://instagram.com/as_ritesh";
+  const linkedinUrl = data?.socials?.linkedin || "https://www.linkedin.com/in/ritesh-patel1/";
+  const email = data?.contact?.email || data?.socials?.email || "riteshkr90patel@gmail.com";
 
   const handleReplayIntro = () => {
     setIntroFinished(false);
@@ -51,17 +58,17 @@ export default function Home() {
       {/* Floating Social Sidebar */}
       <aside className="fixed left-5 top-1/2 -translate-y-1/2 z-30 hidden xl:flex flex-col items-center gap-4 bg-white/85 backdrop-blur-md p-2.5 rounded-2xl border border-slate-200/80 shadow-lg shadow-black/5 pointer-events-auto">
         <a
-          href="https://instagram.com/as_ritesh"
+          href={instagramUrl}
           target="_blank"
           rel="noopener noreferrer"
           className="w-8 h-8 flex items-center justify-center rounded-xl text-[#64748b] hover:text-[#ff3e8d] hover:bg-[#ff3e8d]/10 transition-all duration-200"
-          title="Instagram (@as_ritesh)"
+          title="Instagram"
           aria-label="Instagram Profile"
         >
           <InstagramIcon className="w-4 h-4" />
         </a>
         <a
-          href="https://www.linkedin.com/in/ritesh-patel1/"
+          href={linkedinUrl}
           target="_blank"
           rel="noopener noreferrer"
           className="w-8 h-8 flex items-center justify-center rounded-xl text-[#64748b] hover:text-[#0a66c2] hover:bg-[#0a66c2]/10 transition-all duration-200"
@@ -71,9 +78,9 @@ export default function Home() {
           <LinkedinIcon className="w-4 h-4" />
         </a>
         <a
-          href="mailto:riteshkr90patel@gmail.com"
+          href={`mailto:${email}`}
           className="w-8 h-8 flex items-center justify-center rounded-xl text-[#64748b] hover:text-[#ffb347] hover:bg-[#ffb347]/10 transition-all duration-200"
-          title="Email (riteshkr90patel@gmail.com)"
+          title={`Email (${email})`}
           aria-label="Email Contact"
         >
           <Mail className="w-4 h-4" />
@@ -127,13 +134,23 @@ export default function Home() {
           <span className="font-bold text-[#0f172a]">© 2026 Ritesh Patel</span> — Digital Growth &amp; Creative Strategy
         </div>
 
-        <button
-          onClick={handleReplayIntro}
-          className="flex items-center gap-2 hover:text-[#ff3e8d] transition-colors cursor-pointer group px-3 py-1.5 rounded-lg border border-slate-200 hover:border-[#ff3e8d]/40"
-        >
-          <RotateCcw className="w-3.5 h-3.5 transition-transform group-hover:-rotate-90 text-[#ff3e8d]" />
-          <span>Replay intro</span>
-        </button>
+        <div className="flex items-center gap-4">
+          <Link
+            href="/admin"
+            className="flex items-center gap-1.5 hover:text-[#ff3e8d] transition-colors cursor-pointer px-3 py-1.5 rounded-lg border border-slate-200 hover:border-[#ff3e8d]/40"
+          >
+            <Lock className="w-3 h-3 text-[#ff3e8d]" />
+            <span>Admin</span>
+          </Link>
+
+          <button
+            onClick={handleReplayIntro}
+            className="flex items-center gap-2 hover:text-[#ff3e8d] transition-colors cursor-pointer group px-3 py-1.5 rounded-lg border border-slate-200 hover:border-[#ff3e8d]/40"
+          >
+            <RotateCcw className="w-3.5 h-3.5 transition-transform group-hover:-rotate-90 text-[#ff3e8d]" />
+            <span>Replay intro</span>
+          </button>
+        </div>
       </footer>
     </main>
   );

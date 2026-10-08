@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { motion, useReducedMotion, Variants } from "framer-motion";
 import { Mail, ArrowUpRight, ArrowRight, Check } from "lucide-react";
+import { usePortfolioData } from "@/context/PortfolioDataContext";
 
 function LinkedinIcon({ className = "w-5 h-5" }: { className?: string }) {
   return (
@@ -20,10 +21,6 @@ function InstagramIcon({ className = "w-5 h-5" }: { className?: string }) {
   );
 }
 
-const EMAIL = "riteshkr90patel@gmail.com";
-const LINKEDIN_URL = "https://www.linkedin.com/in/ritesh-patel1/";
-const INSTAGRAM_URL = "https://instagram.com/as_ritesh";
-
 interface FormData {
   name: string;
   email: string;
@@ -38,6 +35,11 @@ interface FormErrors {
 }
 
 export default function ContactSection() {
+  const { data } = usePortfolioData();
+  const email = data?.contact?.email || data?.socials?.email || "riteshkr90patel@gmail.com";
+  const linkedinUrl = data?.socials?.linkedin || "https://www.linkedin.com/in/ritesh-patel1/";
+  const instagramUrl = data?.socials?.instagram || "https://instagram.com/as_ritesh";
+  const availability = data?.personal?.availability || "Open to opportunities in digital marketing strategy, performance campaigns, and high-impact creative execution.";
   const shouldReduceMotion = useReducedMotion();
   const [mounted, setMounted] = useState(false);
   const [formData, setFormData] = useState<FormData>({
@@ -114,7 +116,7 @@ export default function ContactSection() {
     const body = encodeURIComponent(
       `Name: ${formData.name.trim()}\nEmail: ${formData.email.trim()}\n\n${formData.message.trim()}`
     );
-    const mailtoUrl = `mailto:${EMAIL}?subject=${subject}&body=${body}`;
+    const mailtoUrl = `mailto:${email}?subject=${subject}&body=${body}`;
 
     window.open(mailtoUrl, "_self");
     setSubmitted(true);
@@ -166,7 +168,7 @@ export default function ContactSection() {
 
           <motion.a
             variants={fadeInUp}
-            href={`mailto:${EMAIL}`}
+            href={`mailto:${email}`}
             className="inline-flex items-center gap-3 px-8 py-4 harsh-gradient text-white font-mono text-xs font-bold tracking-widest uppercase rounded-2xl shadow-[4px_4px_0px_0px_#0f172a] hover:translate-x-0.5 hover:-translate-y-0.5 transition-transform"
           >
             <Mail className="w-4 h-4" />
@@ -193,7 +195,7 @@ export default function ContactSection() {
             >
               {/* Email Card */}
               <a
-                href={`mailto:${EMAIL}`}
+                href={`mailto:${email}`}
                 className="group flex items-center justify-between p-5 bg-slate-50 border border-slate-200/90 rounded-2xl shadow-sm hover:border-[#ff3e8d]/50 hover:bg-white transition-all duration-300 hover:shadow-md cursor-pointer"
               >
                 <div className="flex items-center gap-4">
@@ -205,7 +207,7 @@ export default function ContactSection() {
                       EMAIL
                     </span>
                     <span className="font-mono text-xs sm:text-sm text-[#0f172a] font-bold group-hover:text-[#ff3e8d] transition-colors">
-                      {EMAIL}
+                      {email}
                     </span>
                   </div>
                 </div>
@@ -214,7 +216,7 @@ export default function ContactSection() {
 
               {/* LinkedIn Card */}
               <a
-                href={LINKEDIN_URL}
+                href={linkedinUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group flex items-center justify-between p-5 bg-slate-50 border border-slate-200/90 rounded-2xl shadow-sm hover:border-[#0a66c2]/50 hover:bg-white transition-all duration-300 hover:shadow-md cursor-pointer"
@@ -228,7 +230,7 @@ export default function ContactSection() {
                       LINKEDIN
                     </span>
                     <span className="font-mono text-xs sm:text-sm text-[#0f172a] font-bold group-hover:text-[#0a66c2] transition-colors">
-                      ritesh-patel1
+                      {linkedinUrl.split("/in/")[1]?.replace("/", "") || "LinkedIn Profile"}
                     </span>
                   </div>
                 </div>
@@ -237,7 +239,7 @@ export default function ContactSection() {
 
               {/* Instagram Card */}
               <a
-                href={INSTAGRAM_URL}
+                href={instagramUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group flex items-center justify-between p-5 bg-slate-50 border border-slate-200/90 rounded-2xl shadow-sm hover:border-[#e1306c]/50 hover:bg-white transition-all duration-300 hover:shadow-md cursor-pointer"
@@ -251,7 +253,7 @@ export default function ContactSection() {
                       INSTAGRAM
                     </span>
                     <span className="font-mono text-xs sm:text-sm text-[#0f172a] font-bold group-hover:text-[#e1306c] transition-colors">
-                      @as_ritesh
+                      {instagramUrl.includes(".com/") ? `@${instagramUrl.split(".com/")[1]?.replace("/", "")}` : instagramUrl}
                     </span>
                   </div>
                 </div>
@@ -267,7 +269,7 @@ export default function ContactSection() {
                   </span>
                 </div>
                 <p className="font-sans text-xs text-[#64748b] leading-relaxed font-medium">
-                  Open to opportunities in digital marketing strategy, performance campaigns, and high-impact creative execution.
+                  {availability}
                 </p>
               </div>
             </motion.div>

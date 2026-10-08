@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { ArrowUpRight, Maximize2, TrendingUp, Phone } from "lucide-react";
 import AnimatedCounter from "./AnimatedCounter";
 import ProofModal from "./ProofModal";
+import { usePortfolioData } from "@/context/PortfolioDataContext";
 
 // Custom SVG Icons for Instagram & YouTube
 function InstagramIcon({ className = "w-3.5 h-3.5" }: { className?: string }) {
@@ -35,6 +36,9 @@ interface ProofModalState {
 }
 
 export default function ResultsSection() {
+  const { data } = usePortfolioData();
+  const results = data?.results;
+
   const [modalState, setModalState] = useState<ProofModalState>({
     isOpen: false,
     imageSrc: "",
@@ -57,8 +61,56 @@ export default function ResultsSection() {
     setModalState((prev) => ({ ...prev, isOpen: false }));
   };
 
-  const INSTAGRAM_REEL_URL =
-    "https://www.instagram.com/reel/DaK3sgMIUJ5/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==&igsi=MzRlODBiNWFlZA==";
+  const instagramData = results?.instagram || {
+    title: "VIRAL CONTENT IMPACT",
+    subtitle: "High-retention creative hooks delivering organic audience scaling across short-form reels.",
+    viewsValue: 262,
+    viewsSuffix: "K+",
+    viewsLabel: "VIEWS ON A SINGLE POST",
+    viewsSublabel: "Verified standalone organic reach",
+    url: "https://www.instagram.com/reel/DaK3sgMIUJ5/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==&igsi=MzRlODBiNWFlZA==",
+  };
+
+  const metaAdsData = results?.metaAds || {
+    budget: "₹400",
+    impressionsValue: 23.6,
+    impressionsSuffix: "K+",
+    cplvValue: 0.64,
+    cplvPrefix: "₹",
+    cplvLabel: "COST PER LANDING PAGE VIEW",
+    cplvSublabel: "Traffic optimization & creative scaling efficiency",
+    proofImage: "/posters/Meta results.png",
+    proofTitle: "META ADS CAMPAIGN PROOF — 23.6K+ IMPRESSIONS @ ₹0.64 PER LANDING PAGE VIEW",
+  };
+
+  const googleAdsData = results?.googleAds || {
+    impressionsValue: 14.8,
+    impressionsSuffix: "K+",
+    impressionsDesc: "High-intent search impressions delivered across targeted queries.",
+    clicksValue: 1.62,
+    clicksSuffix: "K",
+    localActionsValue: 162,
+    callsValue: 33,
+    spendValue: 2810.40,
+    spendPrefix: "₹",
+    proofImage: "/posters/Google ad results.png",
+    proofTitle: "GOOGLE ADS CAMPAIGN PROOF — 14.8K+ IMPRESSIONS, 1.62K CLICKS, 162 ACTIONS, 33 CALLS",
+  };
+
+  const youtubeData = results?.youtube || {
+    title: "SHORT-FORM CONTENT SCALE",
+    subtitle: "YouTube Shorts audience growth and high-retention short-form content performance over time.",
+    viewsValue: 75.8,
+    viewsSuffix: "K+",
+    proofImage: "/posters/yt results.jpg",
+    proofTitle: "YOUTUBE SHORTS ANALYTICS PROOF — 75.8K+ LIFETIME VIEWS",
+  };
+
+  const topStats = results?.topStats || {
+    experienceYears: "1 YR",
+    adSets: "MULTI+",
+    medianRoas: "+45%",
+  };
 
   return (
     <section id="results" className="relative py-28 border-t border-slate-200/80 bg-white text-[#0f172a] select-none w-full max-w-full overflow-hidden">
@@ -98,7 +150,7 @@ export default function ResultsSection() {
           >
             <div className="text-left sm:text-right whitespace-nowrap">
               <div className="text-4xl sm:text-5xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-[#ff3e8d] to-[#ffb347] whitespace-nowrap leading-none">
-                1 YR
+                {topStats.experienceYears}
               </div>
               <div className="font-mono text-[10px] uppercase tracking-widest text-[#64748b] mt-1.5 font-bold">
                 Experience
@@ -106,7 +158,7 @@ export default function ResultsSection() {
             </div>
             <div className="text-left sm:text-right whitespace-nowrap">
               <div className="text-4xl sm:text-5xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-[#ffb347] to-[#ff3e8d] whitespace-nowrap leading-none">
-                MULTI+
+                {topStats.adSets}
               </div>
               <div className="font-mono text-[10px] uppercase tracking-widest text-[#64748b] mt-1.5 font-bold">
                 Ad Sets
@@ -114,7 +166,7 @@ export default function ResultsSection() {
             </div>
             <div className="text-left sm:text-right whitespace-nowrap">
               <div className="text-4xl sm:text-5xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-[#ff3e8d] to-[#ffb347] whitespace-nowrap leading-none">
-                +45%
+                {topStats.medianRoas}
               </div>
               <div className="font-mono text-[10px] uppercase tracking-widest text-[#64748b] mt-1.5 font-bold">
                 Median ROAS
@@ -147,37 +199,55 @@ export default function ResultsSection() {
                   <span>SOCIAL PERFORMANCE</span>
                 </div>
                 <h3 className="text-2xl sm:text-3xl font-black uppercase text-[#0f172a] tracking-tight">
-                  VIRAL CONTENT IMPACT
+                  {instagramData.title}
                 </h3>
                 <p className="font-sans text-xs sm:text-sm text-[#64748b] leading-relaxed max-w-sm font-medium">
-                  High-retention creative hooks delivering organic audience scaling across short-form reels.
+                  {instagramData.subtitle}
                 </p>
               </div>
 
               {/* Primary Animated Metric Hero */}
               <div className="lg:col-span-4 flex flex-col justify-center items-start lg:items-center py-2">
                 <div className="font-sans text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight text-[#0f172a] leading-none">
-                  <AnimatedCounter value={262} suffix="K+" />
+                  <AnimatedCounter value={Number(instagramData.viewsValue) || 262} suffix={instagramData.viewsSuffix || "K+"} />
                 </div>
                 <div className="font-mono text-xs text-[#ff3e8d] font-bold uppercase tracking-widest mt-2">
-                  VIEWS ON A SINGLE POST
+                  {instagramData.viewsLabel || "VIEWS ON A SINGLE POST"}
                 </div>
                 <div className="font-mono text-[11px] text-[#64748b] mt-0.5">
-                  Verified standalone organic reach
+                  {instagramData.viewsSublabel || "Verified standalone organic reach"}
                 </div>
               </div>
 
               {/* CTA Action Column */}
               <div className="lg:col-span-3 flex lg:justify-end items-center">
-                <a
-                  href={INSTAGRAM_REEL_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group/btn inline-flex items-center gap-2.5 px-6 py-3.5 harsh-gradient text-white text-xs font-black uppercase tracking-wider rounded-xl shadow-[3px_3px_0px_0px_#0f172a] hover:translate-x-0.5 hover:-translate-y-0.5 transition-transform cursor-pointer"
-                >
-                  <span>VIEW ON INSTAGRAM</span>
-                  <ArrowUpRight className="w-4 h-4" />
-                </a>
+                {instagramData.proofType === "image" && instagramData.proofImage ? (
+                  <button
+                    onClick={() =>
+                      openModal(
+                        instagramData.proofImage!,
+                        "Instagram Performance - Ritesh Patel",
+                        "SOURCE: INSTAGRAM INSIGHTS",
+                        instagramData.proofTitle || "INSTAGRAM PERFORMANCE & REACH PROOF"
+                      )
+                    }
+                    className="group/btn inline-flex items-center gap-2.5 px-6 py-3.5 harsh-gradient text-white text-xs font-black uppercase tracking-wider rounded-xl shadow-[3px_3px_0px_0px_#0f172a] hover:translate-x-0.5 hover:-translate-y-0.5 transition-transform cursor-pointer"
+                  >
+                    <Maximize2 className="w-4 h-4" />
+                    <span>VIEW PROOF SCREENSHOT</span>
+                    <ArrowUpRight className="w-4 h-4" />
+                  </button>
+                ) : (
+                  <a
+                    href={instagramData.url || "https://instagram.com"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group/btn inline-flex items-center gap-2.5 px-6 py-3.5 harsh-gradient text-white text-xs font-black uppercase tracking-wider rounded-xl shadow-[3px_3px_0px_0px_#0f172a] hover:translate-x-0.5 hover:-translate-y-0.5 transition-transform cursor-pointer"
+                  >
+                    <span>VIEW ON INSTAGRAM</span>
+                    <ArrowUpRight className="w-4 h-4" />
+                  </a>
+                )}
               </div>
             </div>
 
@@ -212,7 +282,7 @@ export default function ResultsSection() {
 
                 <div className="font-mono text-xs text-[#64748b] flex items-center gap-2">
                   <span>ALL-OVER BUDGET:</span>
-                  <span className="text-[#0f172a] font-bold">₹400</span>
+                  <span className="text-[#0f172a] font-bold">{metaAdsData.budget}</span>
                 </div>
               </div>
 
@@ -221,7 +291,7 @@ export default function ResultsSection() {
                 {/* Primary Metric: Impressions */}
                 <div className="md:col-span-6 space-y-1">
                   <div className="font-sans text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight text-[#0f172a] leading-none">
-                    <AnimatedCounter value={23.6} decimals={1} suffix="K+" />
+                    <AnimatedCounter value={Number(metaAdsData.impressionsValue) || 23.6} decimals={1} suffix={metaAdsData.impressionsSuffix || "K+"} />
                   </div>
                   <div className="font-mono text-xs text-[#64748b] uppercase font-bold tracking-wider pt-1">
                     IMPRESSIONS DELIVERED
@@ -231,13 +301,13 @@ export default function ResultsSection() {
                 {/* Supporting Metric: Cost Per Landing Page View */}
                 <div className="md:col-span-6 space-y-1 md:border-l md:border-slate-200 md:pl-8">
                   <div className="font-sans text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-[#ff3e8d] leading-none">
-                    <AnimatedCounter value={0.64} decimals={2} prefix="₹" />
+                    <AnimatedCounter value={Number(metaAdsData.cplvValue) || 0.64} decimals={2} prefix={metaAdsData.cplvPrefix || "₹"} />
                   </div>
                   <div className="font-mono text-xs text-[#0f172a] uppercase font-bold tracking-wider pt-1">
-                    COST PER LANDING PAGE VIEW
+                    {metaAdsData.cplvLabel || "COST PER LANDING PAGE VIEW"}
                   </div>
                   <div className="font-mono text-[11px] text-[#64748b]">
-                    Traffic optimization &amp; creative scaling efficiency
+                    {metaAdsData.cplvSublabel || "Traffic optimization & creative scaling efficiency"}
                   </div>
                 </div>
               </div>
@@ -248,21 +318,33 @@ export default function ResultsSection() {
                   SOURCE: META ADS DASHBOARD
                 </div>
 
-                <button
-                  onClick={() =>
-                    openModal(
-                      "/posters/Meta results.png",
-                      "Meta Ads Performance Results - Ritesh Patel",
-                      "SOURCE: META ADS DASHBOARD",
-                      "META ADS CAMPAIGN PROOF — 23.6K+ IMPRESSIONS @ ₹0.64 PER LANDING PAGE VIEW"
-                    )
-                  }
-                  className="group/btn inline-flex items-center gap-2.5 px-6 py-3 border-2 border-[#0f172a] bg-white hover:bg-[#0f172a] hover:text-white text-xs font-mono font-bold tracking-wider uppercase text-[#0f172a] transition-all duration-300 rounded-xl shadow-[3px_3px_0px_0px_#ffb347] cursor-pointer"
-                >
-                  <Maximize2 className="w-3.5 h-3.5 text-[#ff3e8d] group-hover/btn:text-white transition-colors" />
-                  <span>VIEW CAMPAIGN PROOF</span>
-                  <ArrowUpRight className="w-4 h-4" />
-                </button>
+                {metaAdsData.proofType === "link" && metaAdsData.url ? (
+                  <a
+                    href={metaAdsData.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group/btn inline-flex items-center gap-2.5 px-6 py-3 border-2 border-[#0f172a] bg-white hover:bg-[#0f172a] hover:text-white text-xs font-mono font-bold tracking-wider uppercase text-[#0f172a] transition-all duration-300 rounded-xl shadow-[3px_3px_0px_0px_#ffb347] cursor-pointer"
+                  >
+                    <span>VIEW META CAMPAIGN LINK</span>
+                    <ArrowUpRight className="w-4 h-4" />
+                  </a>
+                ) : (
+                  <button
+                    onClick={() =>
+                      openModal(
+                        metaAdsData.proofImage || "/posters/Meta results.png",
+                        "Meta Ads Performance Results - Ritesh Patel",
+                        "SOURCE: META ADS DASHBOARD",
+                        metaAdsData.proofTitle || "META ADS CAMPAIGN PROOF — 23.6K+ IMPRESSIONS @ ₹0.64 PER LANDING PAGE VIEW"
+                      )
+                    }
+                    className="group/btn inline-flex items-center gap-2.5 px-6 py-3 border-2 border-[#0f172a] bg-white hover:bg-[#0f172a] hover:text-white text-xs font-mono font-bold tracking-wider uppercase text-[#0f172a] transition-all duration-300 rounded-xl shadow-[3px_3px_0px_0px_#ffb347] cursor-pointer"
+                  >
+                    <Maximize2 className="w-3.5 h-3.5 text-[#ff3e8d] group-hover/btn:text-white transition-colors" />
+                    <span>VIEW CAMPAIGN PROOF</span>
+                    <ArrowUpRight className="w-4 h-4" />
+                  </button>
+                )}
               </div>
             </div>
           </motion.div>
@@ -301,13 +383,13 @@ export default function ResultsSection() {
                     <span>MAIN HIGHLIGHT // REACH</span>
                   </div>
                   <div className="font-sans text-5xl sm:text-7xl font-black tracking-tight text-[#0f172a] leading-none">
-                    <AnimatedCounter value={14.8} decimals={1} suffix="K+" />
+                    <AnimatedCounter value={Number(googleAdsData.impressionsValue) || 14.8} decimals={1} suffix={googleAdsData.impressionsSuffix || "K+"} />
                   </div>
                   <div className="font-mono text-sm text-[#0f172a] uppercase font-bold tracking-wider pt-1">
                     TOTAL IMPRESSIONS
                   </div>
                   <p className="font-sans text-xs text-[#64748b] pt-1">
-                    High-intent search impressions delivered across targeted queries.
+                    {googleAdsData.impressionsDesc || "High-intent search impressions delivered across targeted queries."}
                   </p>
                 </div>
 
@@ -316,7 +398,7 @@ export default function ResultsSection() {
                   {/* Step 2: Clicks */}
                   <div className="space-y-1 bg-white border border-slate-200 p-4 rounded-xl shadow-sm hover:border-[#ff3e8d]/40 transition-colors">
                     <div className="font-sans text-2xl sm:text-3xl font-black text-[#0f172a]">
-                      <AnimatedCounter value={1.62} decimals={2} suffix="K" />
+                      <AnimatedCounter value={Number(googleAdsData.clicksValue) || 1.62} decimals={2} suffix={googleAdsData.clicksSuffix || "K"} />
                     </div>
                     <div className="font-mono text-[11px] text-[#64748b] uppercase tracking-wider font-bold">
                       CLICKS GENERATED
@@ -326,7 +408,7 @@ export default function ResultsSection() {
                   {/* Step 3: Local Actions */}
                   <div className="space-y-1 bg-white border border-slate-200 p-4 rounded-xl shadow-sm hover:border-[#ff3e8d]/40 transition-colors">
                     <div className="font-sans text-2xl sm:text-3xl font-black text-[#0f172a]">
-                      <AnimatedCounter value={162} />
+                      <AnimatedCounter value={Number(googleAdsData.localActionsValue) || 162} />
                     </div>
                     <div className="font-mono text-[11px] text-[#64748b] uppercase tracking-wider font-bold">
                       LOCAL ACTIONS
@@ -336,7 +418,7 @@ export default function ResultsSection() {
                   {/* Step 4: Sales / Verified Phone Calls */}
                   <div className="space-y-1 bg-white border border-slate-200 p-4 rounded-xl shadow-sm hover:border-[#ff3e8d]/40 transition-colors">
                     <div className="font-sans text-2xl sm:text-3xl font-black text-[#ff3e8d]">
-                      <AnimatedCounter value={33} />
+                      <AnimatedCounter value={Number(googleAdsData.callsValue) || 33} />
                     </div>
                     <div className="font-mono text-[11px] text-[#0f172a] uppercase tracking-wider font-bold">
                       VERIFIED CALLS / SALES
@@ -346,7 +428,7 @@ export default function ResultsSection() {
                   {/* Step 5: All-over Budget / Total Spend */}
                   <div className="space-y-1 bg-white border border-slate-200 p-4 rounded-xl shadow-sm hover:border-[#ff3e8d]/40 transition-colors">
                     <div className="font-sans text-2xl sm:text-3xl font-black text-[#0f172a]">
-                      <AnimatedCounter value={2810.40} decimals={2} prefix="₹" />
+                      <AnimatedCounter value={Number(googleAdsData.spendValue) || 2810.40} decimals={2} prefix={googleAdsData.spendPrefix || "₹"} />
                     </div>
                     <div className="font-mono text-[11px] text-[#64748b] uppercase tracking-wider font-bold">
                       TOTAL SPEND
@@ -361,21 +443,33 @@ export default function ResultsSection() {
                   SOURCE: GOOGLE ADS DASHBOARD
                 </div>
 
-                <button
-                  onClick={() =>
-                    openModal(
-                      "/posters/Google ad results.png",
-                      "Google Ads Performance Results - Ritesh Patel",
-                      "SOURCE: GOOGLE ADS DASHBOARD",
-                      "GOOGLE ADS CAMPAIGN PROOF — 14.8K+ IMPRESSIONS, 1.62K CLICKS, 162 ACTIONS, 33 CALLS"
-                    )
-                  }
-                  className="group/btn inline-flex items-center gap-2.5 px-6 py-3 border-2 border-[#0f172a] bg-white hover:bg-[#0f172a] hover:text-white text-xs font-mono font-bold tracking-wider uppercase text-[#0f172a] transition-all duration-300 rounded-xl shadow-[3px_3px_0px_0px_#ff3e8d] cursor-pointer"
-                >
-                  <Maximize2 className="w-3.5 h-3.5 text-[#ff3e8d] group-hover/btn:text-white transition-colors" />
-                  <span>VIEW CAMPAIGN PROOF</span>
-                  <ArrowUpRight className="w-4 h-4" />
-                </button>
+                {googleAdsData.proofType === "link" && googleAdsData.url ? (
+                  <a
+                    href={googleAdsData.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group/btn inline-flex items-center gap-2.5 px-6 py-3 border-2 border-[#0f172a] bg-white hover:bg-[#0f172a] hover:text-white text-xs font-mono font-bold tracking-wider uppercase text-[#0f172a] transition-all duration-300 rounded-xl shadow-[3px_3px_0px_0px_#ff3e8d] cursor-pointer"
+                  >
+                    <span>VIEW GOOGLE REPORT LINK</span>
+                    <ArrowUpRight className="w-4 h-4" />
+                  </a>
+                ) : (
+                  <button
+                    onClick={() =>
+                      openModal(
+                        googleAdsData.proofImage || "/posters/Google ad results.png",
+                        "Google Ads Performance Results - Ritesh Patel",
+                        "SOURCE: GOOGLE ADS DASHBOARD",
+                        googleAdsData.proofTitle || "GOOGLE ADS CAMPAIGN PROOF — 14.8K+ IMPRESSIONS, 1.62K CLICKS, 162 ACTIONS, 33 CALLS"
+                      )
+                    }
+                    className="group/btn inline-flex items-center gap-2.5 px-6 py-3 border-2 border-[#0f172a] bg-white hover:bg-[#0f172a] hover:text-white text-xs font-mono font-bold tracking-wider uppercase text-[#0f172a] transition-all duration-300 rounded-xl shadow-[3px_3px_0px_0px_#ff3e8d] cursor-pointer"
+                  >
+                    <Maximize2 className="w-3.5 h-3.5 text-[#ff3e8d] group-hover/btn:text-white transition-colors" />
+                    <span>VIEW CAMPAIGN PROOF</span>
+                    <ArrowUpRight className="w-4 h-4" />
+                  </button>
+                )}
               </div>
             </div>
           </motion.div>
@@ -402,17 +496,17 @@ export default function ResultsSection() {
                   <span>YOUTUBE PERFORMANCE</span>
                 </div>
                 <h3 className="text-2xl sm:text-3xl font-black uppercase text-[#0f172a] tracking-tight">
-                  SHORT-FORM CONTENT SCALE
+                  {youtubeData.title}
                 </h3>
                 <p className="font-sans text-xs sm:text-sm text-[#64748b] leading-relaxed max-w-sm font-medium">
-                  YouTube Shorts audience growth and high-retention short-form content performance over time.
+                  {youtubeData.subtitle}
                 </p>
               </div>
 
               {/* Primary Metric: Lifetime Views */}
               <div className="lg:col-span-4 flex flex-col justify-center items-start lg:items-center py-2">
                 <div className="font-sans text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight text-[#0f172a] leading-none">
-                  <AnimatedCounter value={75.8} decimals={1} suffix="K+" />
+                  <AnimatedCounter value={Number(youtubeData.viewsValue) || 75.8} decimals={1} suffix={youtubeData.viewsSuffix || "K+"} />
                 </div>
                 <div className="font-mono text-xs text-[#ff3e8d] font-bold uppercase tracking-widest mt-2">
                   LIFETIME VIEWS
@@ -424,21 +518,33 @@ export default function ResultsSection() {
 
               {/* Action Column */}
               <div className="lg:col-span-3 flex lg:justify-end items-center">
-                <button
-                  onClick={() =>
-                    openModal(
-                      "/posters/yt results.jpg",
-                      "YouTube Studio Analytics Proof - Ritesh Patel",
-                      "SOURCE: YOUTUBE STUDIO",
-                      "YOUTUBE STUDIO ANALYTICS — 75.8K+ LIFETIME VIEWS"
-                    )
-                  }
-                  className="group/btn inline-flex items-center gap-2.5 px-6 py-3.5 harsh-gradient text-white text-xs font-black uppercase tracking-wider rounded-xl shadow-[3px_3px_0px_0px_#0f172a] hover:translate-x-0.5 hover:-translate-y-0.5 transition-transform cursor-pointer"
-                >
-                  <Maximize2 className="w-3.5 h-3.5" />
-                  <span>VIEW ANALYTICS PROOF</span>
-                  <ArrowUpRight className="w-4 h-4" />
-                </button>
+                {youtubeData.proofType === "link" && youtubeData.url ? (
+                  <a
+                    href={youtubeData.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group/btn inline-flex items-center gap-2.5 px-6 py-3.5 harsh-gradient text-white text-xs font-black uppercase tracking-wider rounded-xl shadow-[3px_3px_0px_0px_#0f172a] hover:translate-x-0.5 hover:-translate-y-0.5 transition-transform cursor-pointer"
+                  >
+                    <span>VIEW YOUTUBE LINK</span>
+                    <ArrowUpRight className="w-4 h-4" />
+                  </a>
+                ) : (
+                  <button
+                    onClick={() =>
+                      openModal(
+                        youtubeData.proofImage || "/posters/yt results.jpg",
+                        "YouTube Studio Analytics Proof - Ritesh Patel",
+                        "SOURCE: YOUTUBE STUDIO",
+                        youtubeData.proofTitle || "YOUTUBE SHORTS ANALYTICS PROOF — 75.8K+ LIFETIME VIEWS"
+                      )
+                    }
+                    className="group/btn inline-flex items-center gap-2.5 px-6 py-3.5 harsh-gradient text-white text-xs font-black uppercase tracking-wider rounded-xl shadow-[3px_3px_0px_0px_#0f172a] hover:translate-x-0.5 hover:-translate-y-0.5 transition-transform cursor-pointer"
+                  >
+                    <Maximize2 className="w-3.5 h-3.5" />
+                    <span>VIEW ANALYTICS PROOF</span>
+                    <ArrowUpRight className="w-4 h-4" />
+                  </button>
+                )}
               </div>
             </div>
 

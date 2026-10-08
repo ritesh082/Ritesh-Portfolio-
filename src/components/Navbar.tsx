@@ -4,12 +4,15 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ArrowUpRight, Sparkles } from "lucide-react";
+import { usePortfolioData } from "@/context/PortfolioDataContext";
 
 interface NavbarProps {
   visible: boolean;
 }
 
 export default function Navbar({ visible }: NavbarProps) {
+  const { data } = usePortfolioData();
+  const brandName = data?.personal?.name || "RITESH PATEL";
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [prevScrollY, setPrevScrollY] = useState(0);
@@ -75,7 +78,7 @@ export default function Navbar({ visible }: NavbarProps) {
             className="group flex items-center gap-2 text-sm tracking-tight font-black text-[#0f172a]"
           >
             <span className="w-2.5 h-2.5 rounded-full harsh-gradient group-hover:scale-125 transition-transform duration-300 shadow-sm" />
-            <span className="tracking-tight">RITESH PATEL</span>
+            <span className="tracking-tight uppercase">{brandName}</span>
           </Link>
 
           {/* Desktop Navigation Links */}
@@ -137,7 +140,7 @@ export default function Navbar({ visible }: NavbarProps) {
 
             <div className="hidden xl:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-50 border border-slate-200 text-[#0f172a] text-[10px] font-mono font-bold uppercase tracking-tight">
               <span className="w-1.5 h-1.5 rounded-full bg-[#ff3e8d] animate-pulse" />
-              <span>Open to work</span>
+              <span>{data?.personal?.badgeText || "Open to work"}</span>
             </div>
 
             <a

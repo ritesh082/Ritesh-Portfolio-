@@ -4,11 +4,14 @@ import React, { lazy } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight, FileText, Sparkles } from "lucide-react";
+import { usePortfolioData } from "@/context/PortfolioDataContext";
 
 // Lazy load the 3D character scene to avoid blocking initial render
 const CharacterScene = lazy(() => import("./Character/CharacterScene"));
 
 export default function HeroSection() {
+  const { data } = usePortfolioData();
+  const resumeUrl = data?.personal?.resumeUrl || "/Ritesh_Patel.pdf";
   return (
     <section id="hero" className="relative min-h-[92vh] pt-28 pb-16 md:pb-24 flex flex-col justify-center overflow-hidden bg-warm-ambient w-full max-w-full">
       {/* Sunset gradient ambient lighting depth */}
@@ -20,15 +23,23 @@ export default function HeroSection() {
           
           {/* ── Left Column: Dominant Editorial Headline & CTAs (60%) ── */}
           <div className="lg:col-span-7 space-y-7 max-w-2xl">
-            {/* Eyebrow Label */}
+            {/* Eyebrow Label & Availability */}
             <motion.div
               initial={{ opacity: 0, x: -10 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="inline-flex items-center gap-2.5 px-3 py-1 bg-slate-50 border border-slate-200/80 rounded-full text-[11px] font-mono tracking-widest uppercase text-[#ff3e8d] font-bold"
+              className="flex flex-wrap items-center gap-2.5"
             >
-              <span className="w-1.5 h-1.5 rounded-full bg-[#ff3e8d] animate-pulse" />
-              <span>Creative Strategist // Digital Growth</span>
+              <div className="inline-flex items-center gap-2.5 px-3 py-1 bg-slate-50 border border-slate-200/80 rounded-full text-[11px] font-mono tracking-widest uppercase text-[#ff3e8d] font-bold">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#ff3e8d] animate-pulse" />
+                <span>{data?.personal?.badgeText || "CREATIVE STRATEGIST // DIGITAL GROWTH"}</span>
+              </div>
+              {data?.personal?.availability && (
+                <div className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-emerald-50 border border-emerald-200/70 rounded-full text-[10px] font-mono tracking-wider uppercase text-emerald-700 font-bold">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                  <span>{data.personal.availability}</span>
+                </div>
+              )}
             </motion.div>
 
             {/* Primary Headline */}
@@ -38,8 +49,39 @@ export default function HeroSection() {
               transition={{ duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
               className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-black tracking-tighter leading-[0.92] text-[#0f172a]"
             >
-              Digital Growth <br />
-              <span className="harsh-text uppercase italic inline-block pr-2 sm:pr-3">Alchemist</span>
+              {data?.personal?.heroHeading ? (
+                (() => {
+                  const parts = data.personal.heroHeading.split(".");
+                  if (parts.length > 1 && parts[1].trim()) {
+                    return (
+                      <>
+                        {parts[0].trim()} <br />
+                        <span className="harsh-text uppercase italic inline-block pr-2 sm:pr-3">
+                          {parts.slice(1).join(".").trim()}
+                        </span>
+                      </>
+                    );
+                  }
+                  const words = data.personal.heroHeading.split(" ");
+                  if (words.length > 2) {
+                    const mid = Math.ceil(words.length / 2);
+                    return (
+                      <>
+                        {words.slice(0, mid).join(" ")} <br />
+                        <span className="harsh-text uppercase italic inline-block pr-2 sm:pr-3">
+                          {words.slice(mid).join(" ")}
+                        </span>
+                      </>
+                    );
+                  }
+                  return <span className="harsh-text uppercase italic inline-block">{data.personal.heroHeading}</span>;
+                })()
+              ) : (
+                <>
+                  Digital Growth <br />
+                  <span className="harsh-text uppercase italic inline-block pr-2 sm:pr-3">Alchemist</span>
+                </>
+              )}
             </motion.h1>
 
             {/* Supporting Narrative with Accent Callout Border */}
@@ -50,7 +92,8 @@ export default function HeroSection() {
               className="border-l-[6px] md:border-l-[8px] border-[#ff3e8d] pl-5 bg-white/70 backdrop-blur-sm py-3.5 rounded-r-2xl shadow-sm"
             >
               <p className="text-base sm:text-lg text-[#0f172a] leading-snug font-bold">
-                I bridge the gap between creative vision and measurable results. Turning raw data into high-fidelity campaigns and autonomous AI workflows.
+                {data?.personal?.heroSubtitle ||
+                  "I bridge the gap between creative vision and measurable results. Turning raw data into high-fidelity campaigns and autonomous AI workflows."}
               </p>
             </motion.div>
 
@@ -90,7 +133,7 @@ export default function HeroSection() {
 
               {/* Secondary CTA */}
               <a
-                href="/Ritesh_Patel.pdf"
+                href={resumeUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 data-char-action="resume"

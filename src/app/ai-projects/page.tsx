@@ -7,8 +7,14 @@ import {
   ArrowLeft, 
   Sparkles, 
   CheckCircle2, 
-  ArrowUpRight 
+  ArrowUpRight,
+  Play,
+  ExternalLink,
+  Code2,
+  Tv,
+  X
 } from "lucide-react";
+import { usePortfolioData } from "@/context/PortfolioDataContext";
 
 interface AiProjectDetail {
   id: string;
@@ -20,12 +26,15 @@ interface AiProjectDetail {
   description: string;
   highlights: string[];
   techStack: string[];
-  cliPreview: {
+  liveUrl?: string;
+  videoUrl?: string;
+  githubUrl?: string;
+  cliPreview?: {
     command: string;
     outputLines: { text: string; color?: string }[];
   };
   metrics: { label: string; value: string }[];
-  architecture: { title: string; desc: string }[];
+  architecture?: { title: string; desc: string }[];
 }
 
 const AI_PROJECTS: AiProjectDetail[] = [
@@ -149,9 +158,18 @@ const AI_PROJECTS: AiProjectDetail[] = [
 ];
 
 export default function AiProjectsPage() {
-  const [activeTab, setActiveTab] = useState<string>("seo-audit-tool");
+  const { data } = usePortfolioData();
+  const projects = data?.aiProjects && data.aiProjects.length > 0 ? data.aiProjects : AI_PROJECTS;
+  const [activeTab, setActiveTab] = useState<string>(projects[0]?.id || "seo-audit-tool");
+  const [activeVideoModalUrl, setActiveVideoModalUrl] = useState<string | null>(null);
 
-  const selectedProject = AI_PROJECTS.find(p => p.id === activeTab) || AI_PROJECTS[0];
+  const selectedProject = projects.find(p => p.id === activeTab) || projects[0];
+
+  const getYouTubeEmbedUrl = (url?: string) => {
+    if (!url) return null;
+    const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
+    return match ? `https://www.youtube.com/embed/${match[1]}?autoplay=1` : null;
+  };
 
   return (
     <main className="min-h-screen bg-[#fafafa] text-[#0f172a] relative selection:bg-[#ff3e8d] selection:text-white">
@@ -175,7 +193,7 @@ export default function AiProjectsPage() {
           {/* System Badge */}
           <div className="hidden sm:flex items-center gap-2 font-mono text-xs text-[#64748b] bg-slate-100 px-3.5 py-1.5 rounded-full border border-slate-200/60">
             <span className="w-2 h-2 rounded-full bg-[#ff3e8d] animate-pulse" />
-            <span className="font-bold text-[#0f172a]">3 AI PRODUCTION SYSTEMS</span>
+            <span className="font-bold text-[#0f172a]">{projects.length} AI PRODUCTION SYSTEMS</span>
           </div>
 
           {/* Connect Action */}
@@ -209,8 +227,10 @@ export default function AiProjectsPage() {
 
         {/* 2. PROJECT SELECTION TABS */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {AI_PROJECTS.map((proj) => {
+          {projects.map((proj) => {
             const isSelected = activeTab === proj.id;
+            const hasLiveApp = Boolean(proj.liveUrl && proj.liveUrl.trim());
+            const hasVideo = Boolean(proj.videoUrl && proj.videoUrl.trim());
 
             return (
               <button
@@ -227,11 +247,23 @@ export default function AiProjectsPage() {
                     <span className={`font-bold ${isSelected ? "text-[#ffb347]" : "text-[#ff3e8d]"}`}>
                       PROJECT // {proj.number}
                     </span>
-                    <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold uppercase ${
-                      isSelected ? "bg-white/10 text-white" : "bg-slate-100 text-[#64748b]"
-                    }`}>
-                      {proj.badge}
-                    </span>
+                    <div className="flex items-center gap-1.5 flex-wrap">
+                      {hasVideo && (
+                        <span className="text-[9px] px-2 py-0.5 rounded-full font-bold uppercase bg-amber-500/20 text-amber-600 border border-amber-500/30">
+                          ▶ Video
+                        </span>
+                      )}
+                      {hasLiveApp && (
+                        <span className="text-[9px] px-2 py-0.5 rounded-full font-bold uppercase bg-[#ff3e8d]/20 text-[#ff3e8d] border border-[#ff3e8d]/30">
+                          🚀 Live
+                        </span>
+                      )}
+                      <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold uppercase ${
+                        isSelected ? "bg-white/10 text-white" : "bg-slate-100 text-[#64748b]"
+                      }`}>
+                        {proj.badge}
+                      </span>
+                    </div>
                   </div>
 
                   <h3 className="font-sans text-lg sm:text-xl font-black leading-snug">
@@ -281,6 +313,53 @@ export default function AiProjectsPage() {
                 <p className="text-base sm:text-lg text-[#ff3e8d] font-bold font-mono">
                   {selectedProject.subtitle}
                 </p>
+
+                {/* Primary Action Row: Live Demo + Video Demo + GitHub Links (ONLY rendered when filled) */}
+                {(Boolean(selectedProject.liveUrl?.trim()) ||
+                  Boolean(selectedProject.videoUrl?.trim()) ||
+                  Boolean(selectedProject.githubUrl?.trim())) && (
+                  <div className="flex flex-wrap items-center gap-3 pt-3">
+                    {/* 1. Live Web App Button */}
+                    {Boolean(selectedProject.liveUrl && selectedProject.liveUrl.trim()) && (
+                      <a
+                        href={selectedProject.liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2.5 px-6 py-3 harsh-gradient text-white text-xs font-mono font-black uppercase tracking-wider rounded-2xl shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer group"
+                      >
+                        <ExternalLink className="w-4 h-4 text-white group-hover:scale-110 transition-transform" />
+                        <span>Launch Live Demo</span>
+                      </a>
+                    )}
+
+                    {/* 2. Video Demo Button */}
+                    {Boolean(selectedProject.videoUrl && selectedProject.videoUrl.trim()) && (
+                      <button
+                        type="button"
+                        onClick={() => setActiveVideoModalUrl(selectedProject.videoUrl || null)}
+                        className="inline-flex items-center gap-2.5 px-6 py-3 bg-[#0f172a] hover:bg-[#1e293b] text-white text-xs font-mono font-black uppercase tracking-wider rounded-2xl shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer group border border-slate-700"
+                      >
+                        <Play className="w-4 h-4 fill-[#ffb347] text-[#ffb347] group-hover:scale-110 transition-transform" />
+                        <span>Watch Demo Video</span>
+                        <Tv className="w-3.5 h-3.5 text-slate-400" />
+                      </button>
+                    )}
+
+                    {/* 3. GitHub Code Button */}
+                    {Boolean(selectedProject.githubUrl && selectedProject.githubUrl.trim()) && (
+                      <a
+                        href={selectedProject.githubUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 px-5 py-3 bg-white hover:bg-slate-50 text-[#0f172a] text-xs font-mono font-bold uppercase tracking-wider rounded-2xl border border-slate-200 shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all"
+                      >
+                        <Code2 className="w-4 h-4 text-[#ff3e8d]" />
+                        <span>View Code</span>
+                        <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
+                      </a>
+                    )}
+                  </div>
+                )}
               </div>
 
               {/* Quick Metrics */}
@@ -361,22 +440,26 @@ export default function AiProjectsPage() {
                     </div>
 
                     {/* Terminal Command */}
-                    <div className="font-mono text-xs text-emerald-400 flex items-center gap-2 bg-slate-900/90 p-2.5 rounded-xl border border-slate-800">
-                      <span className="text-[#ff3e8d]">$</span>
-                      <span>{selectedProject.cliPreview.command}</span>
-                    </div>
-
-                    {/* Output Terminal Stream */}
-                    <div className="font-mono text-[11px] sm:text-xs space-y-2 py-2 max-h-[300px] overflow-y-auto pr-2">
-                      {selectedProject.cliPreview.outputLines.map((line, idx) => (
-                        <div
-                          key={idx}
-                          className={`leading-relaxed ${line.color || "text-slate-300"} opacity-95`}
-                        >
-                          {line.text}
+                    {selectedProject.cliPreview && (
+                      <>
+                        <div className="font-mono text-xs text-emerald-400 flex items-center gap-2 bg-slate-900/90 p-2.5 rounded-xl border border-slate-800">
+                          <span className="text-[#ff3e8d]">$</span>
+                          <span>{selectedProject.cliPreview.command}</span>
                         </div>
-                      ))}
-                    </div>
+
+                        {/* Output Terminal Stream */}
+                        <div className="font-mono text-[11px] sm:text-xs space-y-2 py-2 max-h-[300px] overflow-y-auto pr-2">
+                          {selectedProject.cliPreview.outputLines.map((line, idx) => (
+                            <div
+                              key={idx}
+                              className={`leading-relaxed ${line.color || "text-slate-300"} opacity-95`}
+                            >
+                              {line.text}
+                            </div>
+                          ))}
+                        </div>
+                      </>
+                    )}
 
                   {/* Status footer */}
                   <div className="pt-3 border-t border-slate-800 flex items-center justify-between text-[10px] font-mono text-slate-400">
@@ -389,18 +472,20 @@ export default function AiProjectsPage() {
                 </div>
 
                 {/* Architecture Highlights 3-Pill Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                  {selectedProject.architecture.map((arch, i) => (
-                    <div key={i} className="p-3.5 bg-slate-50 border border-slate-200/80 rounded-2xl space-y-1">
-                      <h4 className="font-mono text-xs font-bold text-[#0f172a]">
-                        {arch.title}
-                      </h4>
-                      <p className="text-[11px] text-[#64748b] leading-relaxed">
-                        {arch.desc}
-                      </p>
-                    </div>
-                  ))}
-                </div>
+                {selectedProject.architecture && selectedProject.architecture.length > 0 && (
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    {selectedProject.architecture.map((arch, i) => (
+                      <div key={i} className="p-3.5 bg-slate-50 border border-slate-200/80 rounded-2xl space-y-1">
+                        <h4 className="font-mono text-xs font-bold text-[#0f172a]">
+                          {arch.title}
+                        </h4>
+                        <p className="text-[11px] text-[#64748b] leading-relaxed">
+                          {arch.desc}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           </motion.div>
@@ -444,6 +529,61 @@ export default function AiProjectsPage() {
           <span>Return to main portfolio</span>
         </Link>
       </footer>
+
+      {/* ── Video Lightbox Modal ── */}
+      <AnimatePresence>
+        {activeVideoModalUrl && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setActiveVideoModalUrl(null)}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-8 bg-black/85 backdrop-blur-md cursor-zoom-out"
+          >
+            <motion.div
+              initial={{ scale: 0.92, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.92, opacity: 0, y: 20 }}
+              transition={{ duration: 0.25 }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative max-w-4xl w-full aspect-video bg-black rounded-3xl overflow-hidden border border-slate-700 shadow-2xl"
+            >
+              <button
+                type="button"
+                onClick={() => setActiveVideoModalUrl(null)}
+                className="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-black/80 hover:bg-[#ff3e8d] text-white flex items-center justify-center transition-all cursor-pointer shadow-lg"
+                title="Close Video"
+              >
+                <X className="w-5 h-5" />
+              </button>
+
+              {getYouTubeEmbedUrl(activeVideoModalUrl) ? (
+                <iframe
+                  src={getYouTubeEmbedUrl(activeVideoModalUrl)!}
+                  title="Project Demo Video"
+                  className="w-full h-full border-0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                />
+              ) : (
+                <div className="w-full h-full flex flex-col items-center justify-center p-6 text-center space-y-4">
+                  <Tv className="w-12 h-12 text-[#ffb347]" />
+                  <p className="text-white font-mono text-sm font-bold">External Project Demo Link</p>
+                  <a
+                    href={activeVideoModalUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-6 py-3 harsh-gradient text-white font-mono text-xs font-bold uppercase rounded-xl flex items-center gap-2"
+                  >
+                    <span>Open Demo in New Tab</span>
+                    <ExternalLink className="w-4 h-4" />
+                  </a>
+                </div>
+              )}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </main>
   );
 }

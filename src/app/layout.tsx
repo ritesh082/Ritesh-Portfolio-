@@ -3,6 +3,7 @@ import { Inter, JetBrains_Mono } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import ExtensionShield from "@/components/ExtensionShield";
+import { PortfolioDataProvider } from "@/context/PortfolioDataContext";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -84,7 +85,9 @@ export default function RootLayout({
         className="bg-white text-[#0f172a] font-sans selection:bg-[#ff3e8d] selection:text-white overflow-x-hidden min-h-screen"
       >
         <ExtensionShield />
-        {children}
+        <PortfolioDataProvider>
+          {children}
+        </PortfolioDataProvider>
       </body>
     </html>
   );

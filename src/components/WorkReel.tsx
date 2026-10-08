@@ -3,16 +3,10 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Maximize2 } from "lucide-react";
+import { usePortfolioData } from "@/context/PortfolioDataContext";
+import { PosterItem } from "@/types/portfolio";
 
-interface PosterItem {
-  id: string;
-  src: string;
-  title: string;
-  tag: string;
-  offsetStyle?: string;
-}
-
-const POSTERS: PosterItem[] = [
+const DEFAULT_POSTERS: PosterItem[] = [
   { id: "1", src: "/posters/1.png", title: "COMFORT FEELS SAFE. GROWTH DOESN'T.", tag: "INTERVIEW PSYCHOLOGY", offsetStyle: "translate-y-1" },
   { id: "2", src: "/posters/2.png", title: "DON'T CHASE EVERY JOB. PERFECT MATCH.", tag: "CAREER DECODE", offsetStyle: "-translate-y-1" },
   { id: "3", src: "/posters/3.png", title: "THE CITY DOESN'T GROW. IT'S DESIGNED.", tag: "URBAN BLUEPRINT", offsetStyle: "translate-y-0.5" },
@@ -25,10 +19,10 @@ const POSTERS: PosterItem[] = [
   { id: "10", src: "/posters/10.png", title: "CREATIVE MARKETING & BRANDING", tag: "PORTFOLIO HIGHLIGHT", offsetStyle: "-translate-y-1" },
 ];
 
-// Duplicated track array for 100% seamless, infinite loop
-const TRACK_ITEMS = [...POSTERS, ...POSTERS];
-
 export default function WorkReel() {
+  const { data } = usePortfolioData();
+  const posters = data?.posters && data.posters.length > 0 ? data.posters : DEFAULT_POSTERS;
+  const trackItems = [...posters, ...posters];
   const [selectedPoster, setSelectedPoster] = useState<PosterItem | null>(null);
 
   // Background scroll lock & Escape key handler for modal
@@ -52,6 +46,11 @@ export default function WorkReel() {
     };
   }, [selectedPoster]);
 
+  const isVideoMedia = (item?: PosterItem | null) => {
+    if (!item?.src) return false;
+    return item.mediaType === "video" || /\.(mp4|webm|mov|m4v)(\?.*)?$/i.test(item.src) || item.src.startsWith("data:video");
+  };
+
   return (
     <section id="work" className="relative py-28 border-t border-slate-200/80 bg-[#fffafb] select-none w-full max-w-full overflow-hidden">
       {/* Background Sunset Ambient Glow */}
@@ -69,7 +68,7 @@ export default function WorkReel() {
         </h2>
 
         <p className="text-base sm:text-lg text-[#64748b] max-w-xl font-medium">
-          I don&apos;t just strategize. <span className="text-[#0f172a] font-bold">I create high-fidelity assets.</span>
+          I don&apos;t just strategize. <span className="text-[#0f172a] font-bold">I create high-fidelity assets &amp; reels.</span>
         </p>
 
         {/* Process Pill Badge */}
@@ -93,42 +92,56 @@ export default function WorkReel() {
 
         {/* Continuous RIGHT -> LEFT Moving Track */}
         <div className="animate-marquee-left flex items-center gap-6 sm:gap-8 px-4 group-hover/marquee:[animation-play-state:paused] hover:[animation-play-state:paused]">
-          {TRACK_ITEMS.map((poster, idx) => (
-            <div
-              key={`${poster.id}-${idx}`}
-              data-char-action="work-poster"
-              onClick={() => setSelectedPoster(poster)}
-              className={`relative w-36 sm:w-48 md:w-56 lg:w-60 flex-shrink-0 aspect-[4/5] group/poster cursor-pointer transition-transform duration-300 ${poster.offsetStyle || ""}`}
-            >
-              {/* Poster Asset Container with Subtle Curved Edges */}
-              <div className="relative w-full h-full overflow-hidden bg-white border border-slate-200/90 group-hover/poster:border-[#ff3e8d] shadow-lg group-hover/poster:shadow-2xl transition-all duration-300 group-hover/poster:scale-[1.03] rounded-xl sm:rounded-2xl">
-                <img
-                  src={poster.src}
-                  alt={`${poster.title} - Ritesh Patel`}
-                  className="w-full h-full object-cover object-top transition-transform duration-700 group-hover/poster:scale-105 rounded-xl sm:rounded-2xl"
-                  loading="lazy"
-                />
+          {trackItems.map((poster, idx) => {
+            const isVideo = isVideoMedia(poster);
+            return (
+              <div
+                key={`${poster.id}-${idx}`}
+                data-char-action="work-poster"
+                onClick={() => setSelectedPoster(poster)}
+                className={`relative w-36 sm:w-48 md:w-56 lg:w-60 flex-shrink-0 aspect-[4/5] group/poster cursor-pointer transition-transform duration-300 ${poster.offsetStyle || ""}`}
+              >
+                {/* Poster Asset Container with Subtle Curved Edges */}
+                <div className="relative w-full h-full overflow-hidden bg-slate-900 border border-slate-200/90 group-hover/poster:border-[#ff3e8d] shadow-lg group-hover/poster:shadow-2xl transition-all duration-300 group-hover/poster:scale-[1.03] rounded-xl sm:rounded-2xl">
+                  {isVideo ? (
+                    <video
+                      src={poster.src}
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      className="w-full h-full object-cover object-center rounded-xl sm:rounded-2xl pointer-events-none"
+                    />
+                  ) : (
+                    <img
+                      src={poster.src}
+                      alt={`${poster.title} - Ritesh Patel`}
+                      className="w-full h-full object-cover object-top transition-transform duration-700 group-hover/poster:scale-105 rounded-xl sm:rounded-2xl"
+                      loading="lazy"
+                    />
+                  )}
 
-                {/* Subtle Gradient Shadow Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0f172a]/80 via-transparent to-transparent opacity-30 group-hover/poster:opacity-70 transition-opacity duration-300 pointer-events-none" />
+                  {/* Subtle Gradient Shadow Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0f172a]/80 via-transparent to-transparent opacity-30 group-hover/poster:opacity-70 transition-opacity duration-300 pointer-events-none" />
 
-                {/* Bottom Hover Editorial Info Card */}
-                <div className="absolute bottom-3 left-3 right-3 z-10 p-3 bg-[#0f172a]/95 backdrop-blur-md border border-white/20 opacity-0 group-hover/poster:opacity-100 transition-all duration-300 flex items-center justify-between rounded-lg sm:rounded-xl shadow-xl">
-                  <div className="space-y-0.5 max-w-[80%]">
-                    <span className="font-mono text-[9px] text-[#ffb347] tracking-widest uppercase block font-bold">
-                      {poster.tag}
-                    </span>
-                    <h4 className="font-sans text-xs font-bold text-white uppercase truncate">
-                      {poster.title}
-                    </h4>
-                  </div>
-                  <div className="w-6 h-6 rounded-full bg-[#ff3e8d]/30 border border-[#ff3e8d]/60 flex items-center justify-center text-[#ff3e8d]">
-                    <Maximize2 className="w-3 h-3 text-white" />
+                  {/* Bottom Hover Editorial Info Card */}
+                  <div className="absolute bottom-3 left-3 right-3 z-10 p-3 bg-[#0f172a]/95 backdrop-blur-md border border-white/20 opacity-0 group-hover/poster:opacity-100 transition-all duration-300 flex items-center justify-between rounded-lg sm:rounded-xl shadow-xl">
+                    <div className="space-y-0.5 max-w-[80%]">
+                      <span className="font-mono text-[9px] text-[#ffb347] tracking-widest uppercase block font-bold">
+                        {poster.tag}
+                      </span>
+                      <h4 className="font-sans text-xs font-bold text-white uppercase truncate">
+                        {poster.title}
+                      </h4>
+                    </div>
+                    <div className="w-6 h-6 rounded-full bg-[#ff3e8d]/30 border border-[#ff3e8d]/60 flex items-center justify-center text-[#ff3e8d]">
+                      <Maximize2 className="w-3 h-3 text-white" />
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
 
@@ -143,7 +156,7 @@ export default function WorkReel() {
         <span className="font-bold uppercase tracking-widest text-[#0f172a]">SELECTED CAMPAIGN WORK</span>
       </div>
 
-      {/* High-Resolution Poster Preview Modal */}
+      {/* High-Resolution Poster / Video Preview Modal */}
       <AnimatePresence>
         {selectedPoster && (
           <motion.div
@@ -183,11 +196,22 @@ export default function WorkReel() {
 
               {/* Modal Body */}
               <div className="relative flex-1 overflow-auto p-4 sm:p-6 bg-slate-100 flex items-center justify-center">
-                <img
-                  src={selectedPoster.src}
-                  alt={selectedPoster.title}
-                  className="max-h-[68vh] w-auto object-contain rounded-xl shadow-xl"
-                />
+                {isVideoMedia(selectedPoster) ? (
+                  <video
+                    src={selectedPoster.src}
+                    autoPlay
+                    loop
+                    controls
+                    playsInline
+                    className="max-h-[68vh] w-auto max-w-full object-contain rounded-xl shadow-xl"
+                  />
+                ) : (
+                  <img
+                    src={selectedPoster.src}
+                    alt={selectedPoster.title}
+                    className="max-h-[68vh] w-auto object-contain rounded-xl shadow-xl"
+                  />
+                )}
               </div>
 
               {/* Modal Footer Info */}

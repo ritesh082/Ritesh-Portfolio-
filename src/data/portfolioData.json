@@ -1,0 +1,317 @@
+{
+  "personal": {
+    "name": "Ritesh Patel",
+    "heroHeading": "ENGINEERING IMPACT. DRIVING SCALE.",
+    "heroSubtitle": "Digital Marketer & Performance Strategist bridging creative execution, paid media experimentation, and AI-driven workflows.",
+    "badgeText": "OPEN FOR NEW OPPORTUNITIES",
+    "resumeUrl": "/Ritesh_Patel.pdf",
+    "resumeFileName": "Ritesh_Patel.pdf",
+    "location": "India",
+    "availability": "Available for Full-time / High-Impact Roles"
+  },
+  "socials": {
+    "email": "riteshkr90patel@gmail.com",
+    "phone": "+91 9876543210",
+    "linkedin": "https://www.linkedin.com/in/ritesh-patel1/",
+    "instagram": "https://instagram.com/Ritesh_.13",
+    "github": "https://github.com/ritesh082",
+    "twitter": "",
+    "youtube": "",
+    "calendly": ""
+  },
+  "contact": {
+    "email": "riteshkr90patel@gmail.com",
+    "phone": "+91 9876543210",
+    "location": "India",
+    "responseTime": "< 24 Hours",
+    "statusText": "Actively seeking digital marketing & growth roles"
+  },
+  "experiences": [
+    {
+      "id": "first-attempt",
+      "num": "01",
+      "company": "FIRST ATTEMPT",
+      "context": "Digital Marketing Intern (May 2026 – Present)",
+      "focusAreas": [
+        "META ADS (33K IMPRESSIONS)",
+        "15X REACH GROWTH",
+        "ON-PAGE SEO",
+        "GOOGLE BUSINESS PROFILE"
+      ],
+      "summary": "Delivered 33,000 impressions on a ₹400 test budget, grew client reach 15x (7K to 110K+), optimized on-page SEO for First Job Hub, and generated 100+ GBP views in 10 days."
+    },
+    {
+      "id": "findtern",
+      "num": "02",
+      "company": "FINDTERN",
+      "context": "Operations Intern (Nov 2025 – Jan 2026)",
+      "focusAreas": [
+        "QA BUG TESTING (100+)",
+        "DIGITAL CONTENT",
+        "DATA RESEARCH",
+        "OPERATIONS"
+      ],
+      "summary": "Conducted QA testing identifying 100+ bugs, managed digital marketing content creation, and performed operational data research across fast-paced cross-functional workflows."
+    },
+    {
+      "id": "drone-rangers",
+      "num": "03",
+      "company": "DRONE RANGERS",
+      "context": "Business Development Intern (Aug 2025 – Oct 2025)",
+      "focusAreas": [
+        "CLIENT OUTREACH (300+)",
+        "LEAD GENERATION (25 LEADS)",
+        "AUDIENCE RESEARCH",
+        "CAMPAIGN PLANNING"
+      ],
+      "summary": "Led client outreach across ~300 prospective clients, generated 25 qualified sales leads through audience research and strategic campaign planning."
+    }
+  ],
+  "aiProjects": [
+    {
+      "id": "seo-audit-tool",
+      "number": "01",
+      "title": "Website SEO & Audit Tool",
+      "subtitle": "Automated website health checker built with AI-assisted development",
+      "badge": "AI-Assisted Dev",
+      "category": "Full-Site Crawler & Auditing Engine",
+      "description": "A full-site crawler and auditing tool that scans an entire website and generates automated reports across SEO, accessibility, performance, and security. Conceptualized the feature set and directed AI-assisted development to build it.",
+      "highlights": [
+        "Full-site crawler with sitemap parsing, recursive/BFS crawling, and URL deduplication",
+        "5 automated audit modules: SEO, Accessibility, Performance, Security, Broken Links (25+ checks total)",
+        "JSON-based reporting engine generating separate module-wise reports per crawl",
+        "Interactive CLI with full-audit mode, individual module testing, and reusable crawl data"
+      ],
+      "techStack": [
+        "Node.js",
+        "Playwright",
+        "TypeScript",
+        "JSON Reporting Engine",
+        "BFS Crawling",
+        "CLI Engine"
+      ],
+      "liveUrl": "",
+      "videoUrl": "",
+      "githubUrl": "https://github.com/ritesh082",
+      "metrics": [
+        {
+          "label": "Audit Modules",
+          "value": "5 Modules"
+        },
+        {
+          "label": "Total Checkpoints",
+          "value": "25+ Rules"
+        },
+        {
+          "label": "Crawl Strategy",
+          "value": "BFS + Sitemap"
+        }
+      ],
+      "architecture": [
+        {
+          "title": "Recursive BFS Engine",
+          "desc": "Crawls domain links with instant duplicate rejection and sitemap fallback."
+        },
+        {
+          "title": "5-Tier Audit Pipeline",
+          "desc": "Executes SEO, A11y, Core Web Vitals, HTTPS/headers, and 404 broken link scans."
+        },
+        {
+          "title": "Modular JSON Exporter",
+          "desc": "Outputs clean schema-valid JSON reports for individual or full audit runs."
+        }
+      ],
+      "cliPreview": {
+        "command": "node dist/cli.js --crawl https://brand.com --mode full --export json",
+        "outputLines": [
+          {
+            "text": "[INFO] Initializing Playwright BFS Crawler on https://brand.com",
+            "color": "text-slate-400"
+          },
+          {
+            "text": "[OK] Sitemap located: 42 routes discovered",
+            "color": "text-emerald-400"
+          },
+          {
+            "text": "[EXEC] Running SEO, A11y, Performance, Security audits in parallel...",
+            "color": "text-[#ffb347]"
+          },
+          {
+            "text": "[REPORT] Score: SEO 94/100 | Performance 88/100 | A11y 92/100",
+            "color": "text-[#ff3e8d]"
+          }
+        ]
+      }
+    },
+    {
+      "id": "marketing-copy-generator",
+      "number": "02",
+      "title": "AI Ad & Content Strategy Engine",
+      "subtitle": "High-converting marketing copy and prompt matrix generator",
+      "badge": "Prompt Eng / LLMs",
+      "category": "Ad Copy & Funnel Generator",
+      "description": "Structured AI workflow generator for multi-variant Meta ad copies, hook testing matrices, and high-CTR marketing headlines tuned for paid social campaigns.",
+      "highlights": [
+        "Dynamic angle testing framework (Pain-Point, Benefit-Led, Story, Contradiction)",
+        "Direct-response headline scoring based on emotional resonance and readability",
+        "Automated hashtag clustering and CTA generation tailored to conversion targets"
+      ],
+      "techStack": [
+        "OpenAI API",
+        "Prompt Engineering",
+        "JSON Schema",
+        "Tailwind CSS",
+        "React"
+      ],
+      "liveUrl": "",
+      "githubUrl": "https://github.com/ritesh082",
+      "metrics": [
+        {
+          "label": "Ad Variations",
+          "value": "10x Faster"
+        },
+        {
+          "label": "Tested Angles",
+          "value": "4 Frameworks"
+        },
+        {
+          "label": "CTR Lift",
+          "value": "+35% Est."
+        }
+      ]
+    }
+  ],
+  "posters": [
+    {
+      "id": "1",
+      "src": "/posters/1.png",
+      "title": "COMFORT FEELS SAFE. GROWTH DOESN'T.",
+      "tag": "INTERVIEW PSYCHOLOGY",
+      "offsetStyle": "translate-y-1"
+    },
+    {
+      "id": "2",
+      "src": "/posters/2.png",
+      "title": "DON'T CHASE EVERY JOB. PERFECT MATCH.",
+      "tag": "CAREER DECODE",
+      "offsetStyle": "-translate-y-1"
+    },
+    {
+      "id": "4",
+      "src": "/posters/4.png",
+      "title": "BUILD YOUR POSITION IN THE MARKET.",
+      "tag": "MARKET WATCH",
+      "offsetStyle": "-translate-y-1.5"
+    },
+    {
+      "id": "5",
+      "src": "/posters/5.png",
+      "title": "STRATEGIC GROWTH & CAMPAIGNS",
+      "tag": "PERFORMANCE MKTG",
+      "offsetStyle": "translate-y-1.5"
+    },
+    {
+      "id": "6",
+      "src": "/posters/6.png",
+      "title": "DATA-DRIVEN CREATIVE DIRECTION",
+      "tag": "BRAND SCALE",
+      "offsetStyle": "-translate-y-0.5"
+    },
+    {
+      "id": "7",
+      "src": "/posters/7.png",
+      "title": "ORGANIC ACCELERATION & REACH",
+      "tag": "AUDIENCE STRATEGY",
+      "offsetStyle": "translate-y-1"
+    },
+    {
+      "id": "8",
+      "src": "/posters/8.png",
+      "title": "HIGH-IMPACT CAMPAIGN EXECUTION",
+      "tag": "CREATIVE REEL",
+      "offsetStyle": "-translate-y-1"
+    },
+    {
+      "id": "9",
+      "src": "/posters/9.png",
+      "title": "OPTIMIZED CONVERSION FUNNELS",
+      "tag": "CRO & FUNNELS",
+      "offsetStyle": "translate-y-0.5"
+    },
+    {
+      "id": "10",
+      "src": "/posters/fa_digii_05.09.26.png",
+      "title": "CREATIVE MARKETING & BRANDING",
+      "tag": "PORTFOLIO HIGHLIGHT",
+      "offsetStyle": "-translate-y-1",
+      "mediaType": "image"
+    },
+    {
+      "id": "11",
+      "src": "/posters/fa_digii_03..09.26.png",
+      "title": "JANMASHTAMI FESTIVE CAMPAIGN",
+      "tag": "BRANDING & DESIGN",
+      "mediaType": "image",
+      "offsetStyle": "translate-y-1"
+    },
+    {
+      "id": "poster-1791485766637",
+      "src": "/posters/sfsfgaigaghsligv.mp4",
+      "title": "NEW CAMPAIGN ASSET",
+      "tag": "CREATIVE STRATEGY",
+      "mediaType": "video",
+      "offsetStyle": "translate-y-0"
+    }
+  ],
+  "results": {
+    "topStats": {
+      "experienceYears": "1 YR",
+      "adSets": "MULTI+",
+      "medianRoas": "+45%"
+    },
+    "instagram": {
+      "title": "VIRAL CONTENT IMPACT",
+      "subtitle": "High-retention creative hooks delivering organic audience scaling across short-form reels.",
+      "viewsValue": 262,
+      "viewsSuffix": "K+",
+      "viewsLabel": "VIEWS ON A SINGLE POST",
+      "viewsSublabel": "Verified standalone organic reach",
+      "url": "https://www.instagram.com/reel/DaK3sgMIUJ5/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==&igsi=MzRlODBiNWFlZA==",
+      "proofType": "image",
+      "proofImage": "/posters/1.png"
+    },
+    "metaAds": {
+      "budget": "₹400",
+      "impressionsValue": 23.6,
+      "impressionsSuffix": "K+",
+      "cplvValue": 0.64,
+      "cplvPrefix": "₹",
+      "cplvLabel": "COST PER LANDING PAGE VIEW",
+      "cplvSublabel": "Traffic optimization & creative scaling efficiency",
+      "proofImage": "/posters/Meta results.png",
+      "proofTitle": "META ADS CAMPAIGN PROOF — 23.6K+ IMPRESSIONS @ ₹0.64 PER LANDING PAGE VIEW",
+      "proofType": "image"
+    },
+    "googleAds": {
+      "impressionsValue": 14.8,
+      "impressionsSuffix": "K+",
+      "impressionsDesc": "High-intent search impressions delivered across targeted queries.",
+      "clicksValue": 1.62,
+      "clicksSuffix": "K",
+      "localActionsValue": 162,
+      "callsValue": 33,
+      "spendValue": 2810.4,
+      "spendPrefix": "₹",
+      "proofImage": "/posters/Google ad results.png",
+      "proofTitle": "GOOGLE ADS CAMPAIGN PROOF — 14.8K+ IMPRESSIONS, 1.62K CLICKS, 162 ACTIONS, 33 CALLS"
+    },
+    "youtube": {
+      "title": "SHORT-FORM CONTENT SCALE",
+      "subtitle": "YouTube Shorts audience growth and high-retention short-form content performance over time.",
+      "viewsValue": 75.8,
+      "viewsSuffix": "K+",
+      "proofImage": "/posters/yt results.jpg",
+      "proofTitle": "YOUTUBE SHORTS ANALYTICS PROOF — 75.8K+ LIFETIME VIEWS"
+    }
+  }
+}
