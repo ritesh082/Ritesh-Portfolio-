@@ -90,7 +90,7 @@ export default function HeroSection() {
 
               {/* Secondary CTA */}
               <a
-                href="/Ritesh_Patel_Resume.pdf"
+                href="/Ritesh_Patel.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
                 data-char-action="resume"
