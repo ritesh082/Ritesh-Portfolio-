@@ -127,4 +127,5 @@ export interface PortfolioData {
   aiProjects: AiProjectItem[];
   posters: PosterItem[];
   results: ResultsData;
+  lastUpdated?: number;
 }

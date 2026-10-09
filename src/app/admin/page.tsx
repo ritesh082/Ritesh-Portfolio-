@@ -31,7 +31,7 @@ import {
   Key,
   ShieldCheck,
 } from "lucide-react";
-import { usePortfolioData } from "@/context/PortfolioDataContext";
+import { usePortfolioData, DRAFT_STORAGE_KEY } from "@/context/PortfolioDataContext";
 import {
   PortfolioData,
   ExperienceItem,
@@ -43,6 +43,9 @@ import {
 export default function AdminPage() {
   const { data: globalData, updateData, resetToDefaults } = usePortfolioData();
   const [formData, setFormData] = useState<PortfolioData | null>(null);
+  const [isDirty, setIsDirty] = useState<boolean>(false);
+  const [hasRestoredDraft, setHasRestoredDraft] = useState<boolean>(false);
+  const initialLoadDone = useRef<boolean>(false);
 
   // Authentication State
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
@@ -83,12 +86,67 @@ export default function AdminPage() {
     }
   }, []);
 
-  // Sync form state when globalData is loaded
+  // Initialize form state (checking local draft first to prevent loss on refresh)
   useEffect(() => {
+    if (initialLoadDone.current) return;
+
+    if (typeof window !== "undefined") {
+      try {
+        const savedDraft = localStorage.getItem(DRAFT_STORAGE_KEY);
+        if (savedDraft) {
+          const parsed = JSON.parse(savedDraft);
+          if (parsed && parsed.personal && parsed.experiences) {
+            setFormData(parsed);
+            setIsDirty(true);
+            setHasRestoredDraft(true);
+            initialLoadDone.current = true;
+            return;
+          }
+        }
+      } catch {
+        // ignore
+      }
+    }
+
     if (globalData) {
       setFormData(JSON.parse(JSON.stringify(globalData)));
+      initialLoadDone.current = true;
     }
   }, [globalData]);
+
+  // Auto-save draft to localStorage whenever formData is modified
+  useEffect(() => {
+    if (!formData || !initialLoadDone.current || !globalData) return;
+
+    try {
+      const isDifferent =
+        JSON.stringify({ ...formData, lastUpdated: 0 }) !==
+        JSON.stringify({ ...globalData, lastUpdated: 0 });
+
+      setIsDirty(isDifferent);
+
+      if (isDifferent && typeof window !== "undefined") {
+        localStorage.setItem(DRAFT_STORAGE_KEY, JSON.stringify(formData));
+      } else if (!isDifferent && typeof window !== "undefined") {
+        localStorage.removeItem(DRAFT_STORAGE_KEY);
+      }
+    } catch {
+      // ignore
+    }
+  }, [formData, globalData]);
+
+  // Warn user if refreshing with unsaved changes
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (isDirty) {
+        e.preventDefault();
+        e.returnValue = "You have unsaved changes. Are you sure you want to refresh?";
+        return e.returnValue;
+      }
+    };
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, [isDirty]);
 
   // Handle Login via Server-side Auth API
   const handleLogin = async (e: React.FormEvent) => {
@@ -182,11 +240,30 @@ export default function AdminPage() {
     setIsSaving(false);
 
     if (success) {
+      setIsDirty(false);
+      setHasRestoredDraft(false);
+      if (typeof window !== "undefined") {
+        localStorage.removeItem(DRAFT_STORAGE_KEY);
+      }
       setSaveSuccess("Portfolio updated successfully! Changes are live.");
       setTimeout(() => setSaveSuccess(null), 4000);
     } else {
-      setSaveError("Failed to save changes. Please try again.");
+      setSaveError("Failed to save changes to server disk. Your edits remain cached locally.");
       setTimeout(() => setSaveError(null), 4000);
+    }
+  };
+
+  // Discard Unsaved Draft
+  const handleDiscardDraft = () => {
+    if (confirm("Are you sure you want to discard unsaved edits and restore the published portfolio?")) {
+      if (typeof window !== "undefined") {
+        localStorage.removeItem(DRAFT_STORAGE_KEY);
+      }
+      setFormData(JSON.parse(JSON.stringify(globalData)));
+      setIsDirty(false);
+      setHasRestoredDraft(false);
+      setSaveSuccess("Draft discarded. Reverted to published portfolio.");
+      setTimeout(() => setSaveSuccess(null), 3000);
     }
   };
 
@@ -650,9 +727,17 @@ export default function AdminPage() {
                 <h1 className="text-base font-black uppercase text-white tracking-tight">
                   Portfolio Admin Panel
                 </h1>
-                <span className="px-2 py-0.5 text-[10px] font-mono font-bold rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
-                  LIVE SYNC
-                </span>
+                {isDirty ? (
+                  <span className="px-2 py-0.5 text-[10px] font-mono font-bold rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 flex items-center gap-1.5 animate-pulse">
+                    <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+                    UNSAVED DRAFT
+                  </span>
+                ) : (
+                  <span className="px-2 py-0.5 text-[10px] font-mono font-bold rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                    LIVE SYNCED
+                  </span>
+                )}
               </div>
               <p className="text-[11px] text-slate-400 font-mono">
                 Manage resume, results, posters, internships, contacts &amp; projects
@@ -873,6 +958,51 @@ export default function AdminPage() {
       </AnimatePresence>
 
       <div className="max-w-7xl mx-auto px-6 pt-8">
+        {/* ── Restored Draft Notice ── */}
+        <AnimatePresence>
+          {hasRestoredDraft && isDirty && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              className="mb-6 p-4 bg-amber-500/10 border border-amber-500/30 rounded-2xl flex flex-wrap items-center justify-between gap-4"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center shrink-0">
+                  <Sparkles className="w-4 h-4" />
+                </div>
+                <div>
+                  <h4 className="text-xs font-mono font-bold text-amber-300 uppercase">
+                    Restored Unsaved Local Draft
+                  </h4>
+                  <p className="text-[11px] font-sans text-slate-300">
+                    Your previous edits were recovered from local cache. Click &apos;Save Changes&apos; to publish or discard to revert.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={handleDiscardDraft}
+                  className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-mono rounded-xl transition-colors cursor-pointer"
+                >
+                  Discard Draft
+                </button>
+                <button
+                  type="button"
+                  onClick={handleSaveChanges}
+                  disabled={isSaving}
+                  className="px-4 py-1.5 harsh-gradient text-white text-xs font-mono font-bold uppercase rounded-xl shadow-md hover:opacity-95 transition-opacity flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
+                >
+                  <Save className="w-3.5 h-3.5" />
+                  <span>{isSaving ? "Publishing..." : "Publish Live"}</span>
+                </button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         {/* ── Navigation Tabs ── */}
         <div className="flex flex-wrap gap-2 border-b border-slate-800 pb-4 mb-8">
           <button
@@ -3092,6 +3222,53 @@ export default function AdminPage() {
           </button>
         </div>
       </div>
+
+      {/* ── Sticky Floating Action Bar on Unsaved Changes ── */}
+      <AnimatePresence>
+        {isDirty && (
+          <motion.div
+            initial={{ y: 80, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 80, opacity: 0 }}
+            transition={{ type: "spring", stiffness: 350, damping: 28 }}
+            className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 max-w-xl w-[94%] sm:w-auto bg-[#111827]/95 backdrop-blur-xl border border-[#ff3e8d]/50 rounded-2xl shadow-2xl shadow-black/80 p-3 px-5 flex items-center justify-between gap-4"
+          >
+            <div className="flex items-center gap-3">
+              <span className="relative flex h-3 w-3">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-amber-500"></span>
+              </span>
+              <div>
+                <p className="text-xs font-mono font-bold text-white uppercase tracking-wide">
+                  Unsaved Changes Detected
+                </p>
+                <p className="text-[10px] font-mono text-slate-400 hidden sm:block">
+                  Auto-saved in local draft • Publish to push live
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={handleDiscardDraft}
+                className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-mono rounded-xl transition-colors cursor-pointer"
+              >
+                Discard
+              </button>
+              <button
+                type="button"
+                onClick={handleSaveChanges}
+                disabled={isSaving}
+                className="px-4 py-1.5 harsh-gradient text-white text-xs font-mono font-bold uppercase rounded-xl shadow-md hover:opacity-95 transition-opacity flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
+              >
+                <Save className="w-3.5 h-3.5" />
+                <span>{isSaving ? "Saving..." : "Save Changes"}</span>
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
